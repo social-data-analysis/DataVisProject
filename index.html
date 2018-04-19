@@ -2,6 +2,9 @@
 <head>
   <link rel="stylesheet" href="./style.css" />
   <link href="https://fonts.googleapis.com/css?family=Carrois+Gothic+SC" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
   <div class="header">
@@ -9,19 +12,22 @@
     SF MOVIE LOCATIONS
    </div>
    <div class="icons">
-     <a href="https://github.com/social-data-analysis/DataVisProject"><img src="../assets/github-logo.png" class="icon" /></a>
+     <a href="https://github.com/social-data-analysis/DataVisProject">
+       <div class="icon"><i class="fab fa-github"></i></div>
+     </a>
    </div>
   </div>
-  <div class="content">
-    <div class="text">
-      <div class="subtitle">Part 2: Visualizing Murders over Time</div>
-      <p>Create a visualization of murders in all of NYC over time.</p>
-      <br/>
-      <div class="chartTitle">Murder incident reports each day between 2006-2016</div>
-      <div class="histogram"></div>
-      <br/><br/><br/><br/>
+  <div class="content container">
+    <div class="text row">
+      <div class="col-md-6 leftPart">
+        <h1 class="subtitle">Movie locations in San Francisco</h1>
+        <p>Create a visualization of murders in all of NYC over time.</p>
+        <div class="histogram"></div>
+      </div>
       <!-- <div class="chartTitle">SF districts</div> -->
-      <div class="map"></div>
+      <div class="col-md-6">
+        <div class="map"></div>
+      </div>
     </div>
   </div>
   <script src="https://d3js.org/d3.v4.min.js"></script>

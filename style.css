@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700');
 @import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Muli:300,400,700');
 
 * {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Muli', sans-serif;
 }
 
 html, body {
@@ -10,6 +11,16 @@ html, body {
   width: 100%;
   padding: 0;
   margin: 0;
+  font-weight: 300;
+  background-color: #29303A !important;
+}
+
+.container {
+  margin: 60px !important;
+}
+
+.leftPart {
+  padding-left: 0 !important;
 }
 
 .icons {
@@ -21,15 +32,19 @@ a {
 }
 
 .icon {
-  width: 22px;
-  height: auto;
+  font-size: 1.5em;
+  color: #eaeaea;
+}
+
+.icon, a:hover {
+  color: #d6d6d6;
 }
 
 body {
   display: flex;
   flex-direction: column;
   background-color: #29303A;
-  color: #eaeaea;
+  color: #eaeaea !important;
 }
 
 .header {
@@ -37,7 +52,7 @@ body {
   background-color: #000000;
   display: flex;
   font-size: 1em;
-  font-weight: 600;
+  font-weight: 700;
   height: 70px;
   justify-content: space-between;
 }
@@ -55,17 +70,15 @@ body {
 
 .content {
   flex: auto;
-  overflow-y: auto;
 }
 
 .text {
-  margin: 0 12%;
+  margin: 0 60px 0px 60px;
 }
 
 .subtitle {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 50px 0 30px 0;
+  color: #f4fc83;
+  /* margin: 50px 0 30px 0; */
 }
 
 .footer {
@@ -85,7 +98,7 @@ body {
   fill: #E2E062;
 }
 
-.tooltip {
+/* .tooltip {
   position: absolute;
   text-align: center;
   padding: 10px;
@@ -94,11 +107,12 @@ body {
   border-radius: 8px;
   pointer-events: none;
   text-transform: lowercase;
+  padding: 20px;
 }
 
 .tooltip::first-letter {
   text-transform: uppercase;
-}
+} */
 
 .selection {
   fill: #ADD8E6;
@@ -118,11 +132,6 @@ body {
   flex: 1;
 }
 
-.container .subtitle {
-  margin: 0;
-  text-align: center;
-}
-
 .brushed {
   fill: #E2E062;
   opacity: 1.0;
@@ -133,30 +142,51 @@ body {
   opacity: 0.6;
 }
 
+.hidden {
+  display: none;
+}
+
+div.tooltip {
+  color: #222;
+  background: #f4fc83;
+  border-radius: 3px;
+  box-shadow: 0px 0px 2px 0px #a6a6a6;
+  padding: 1em;
+  text-shadow: #f5f5f5 0 1px 0;
+  opacity: 0.9;
+  position: absolute;
+  /* padding: 10px; */
+}
+
+.centerTip {
+  transform: translateY(3px);
+}
+
 li {
-  font-weight: bold;
+  font-weight: 700;
 }
 
 li p {
-  font-weight: 400;
+  font-weight: 300;
 }
 
 a, a:visited, a:active, a:hover {
   color: #a983ca;
-  font-weight: bold;
+  font-weight: 700;
   text-decoration: none;
 }
 
 ul > li > ul > li {
-  font-weight: 400;
+  font-weight: 300;
 }
 
 .chartTitle {
-  font-weight: bold;
+  font-weight: 300;
   text-align: center;
 }
 
 .map {
+  transform: translateY(-30px);
   text-align: center;
 }
 
