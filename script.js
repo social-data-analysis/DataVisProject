@@ -3,10 +3,15 @@
 //-----------------------------------------------------------------------------------------------------------------------
 
 var width = 600,
-    height = 600;
+    height = 600,
+    centered;
 
-var color = d3.scaleSequential(d3.interpolateMagma)
-  .domain([0, 36]);
+// var color = d3.scaleSequential(d3.interpolateMagma)
+//   .domain([0, 36]);
+
+// var color = ["#29303a", "#303944", "#31353a", "#006D2C"];
+
+// var colScale = d3.scale.ordinal().range(color);
 
 // var color = d3.scaleLinear()
 //     .domain([1, step(2), step(3), step(4), step(5), step(6), step(7), 20])
@@ -19,6 +24,8 @@ var map = d3.select("body").select(".map").append("svg")
 
 var tooltip = d3.select('body').append('div')
   .attr('class', 'hidden tooltip');
+
+var g = map.append("g");
 
 var projection = d3.geoMercator().scale(1).translate([0, 0]).precision(0);
 var path = d3.geoPath().projection(projection);
@@ -33,7 +40,8 @@ d3.json("districtsOfSF.json", function(json) {
   var transl = [(width - scale * (bounds[1][0] + bounds[0][0])) / 2, (height - scale * (bounds[1][1] + bounds[0][1])) / 2];
   projection.scale(scale).translate(transl);
 
-  map.selectAll("path")
+  g.append("g")
+  .selectAll("path")
       .data(json.features)
       .enter()
       .append("path")
@@ -68,7 +76,8 @@ d3.json("districtsOfSF.json", function(json) {
              .attr('style', 'left:' + (mouse[0] + 640) + 'px; top:' + (mouse[1] + 20) + 'px')
              .html("<p class=\"centerTip\">" + d.properties.name + "</p>");
          };
-       });
+       })
+       .on("click", clicked);
 
 
    // //Create one label per borough
@@ -93,7 +102,7 @@ d3.json("districtsOfSF.json", function(json) {
    //  });
 
     d3.csv("./filmLocationsInSF.csv", function(data) {
-      map.selectAll("circle")
+      g.selectAll("circle")
         .data(data)
         .enter()
         .append("circle")
@@ -114,3 +123,28 @@ d3.json("districtsOfSF.json", function(json) {
         .style("position", "absolute")
     })
 })
+
+function clicked(d) {
+  var x, y, k;
+
+  if (d && centered !== d) {
+    var centroid = path.centroid(d);
+    x = centroid[0];
+    y = centroid[1];
+    k = 4;
+    centered = d;
+  } else {
+    x = width / 2;
+    y = height / 2;
+    k = 1;
+    centered = null;
+  }
+
+  g.selectAll("path")
+      .classed("active", centered && function(d) { return d === centered; });
+
+  g.transition()
+      .duration(750)
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+      .style("stroke-width", 1.5 / k + "px");
+}
