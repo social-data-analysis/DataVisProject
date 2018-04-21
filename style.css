@@ -81,6 +81,14 @@ body {
   /* margin: 50px 0 30px 0; */
 }
 
+.active {
+  -moz-transition: all .5s ease-in;
+  -o-transition: all .5s ease-in;
+  -webkit-transition: all .5s ease-in;
+  transition: all .5s ease-in;
+  fill: black !important;
+}
+
 .footer {
   background: url("./skyline.png");
   height: 25px;

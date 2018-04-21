@@ -58,7 +58,7 @@ d3.json("districtsOfSF.json", function(json) {
        d3.select(this)
          .transition()
          .duration(50)
-         .style("fill", "#000000");
+         .style("fill", "#091526");
        })
        .on("mouseout", function(d) {
          tooltip.classed('hidden', true);
