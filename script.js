@@ -114,7 +114,7 @@ d3.json("districtsOfSF.json", function(json) {
           var coords = d.Coordinates.split(" ");
           return projection([coords[1], coords[0]])[1];
         })
-        .attr("r", 2)
+        .attr("r", 2.5)
         .attr("class", "non_brushed")
         .style("fill", function(d, i) {
           return "#f4fc83"
