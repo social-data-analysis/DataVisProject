@@ -13,7 +13,7 @@ html, body {
   padding: 0;
   margin: 0;
   font-weight: 300;
-  background-color: #29303A !important;
+  background-color: #313a47 !important;
 }
 
 .container {
@@ -26,6 +26,18 @@ html, body {
 
 .icons {
   margin-right: 60px;
+}
+
+.mybtn {
+  border: 2px solid #f4fc83 !important;
+  background-color: #313a47;
+  color: #f4fc83;
+  margin: 5px;
+}
+
+.myButtons {
+  margin: 0 auto !important;
+  text-align: center;
 }
 
 a {
@@ -51,10 +63,10 @@ body {
 .header {
   align-items: center;
   background-color: #1b222d;
-  display: flex;
+  /* display: flex; */
   font-size: 1em;
   font-weight: 700;
-  height: 70px;
+  height: 90px !important;
   justify-content: space-between;
 }
 
@@ -70,7 +82,8 @@ body {
 }
 
 .content {
-  flex: auto;
+  /* flex: auto; */
+  display: block;
 }
 
 .text {
@@ -89,6 +102,14 @@ body {
   -webkit-transition: all .5s ease-in;
   transition: all .5s ease-in;
   fill: black !important;
+}
+
+.activeCircle {
+  -moz-transition: all .5s ease-in;
+  -o-transition: all .5s ease-in;
+  -webkit-transition: all .5s ease-in;
+  transition: all .5s ease-in;
+  fill: red !important;
 }
 
 .footer {
@@ -134,7 +155,7 @@ body {
 }
 
 .container {
-  display: flex;
+  /* display: flex; */
   margin: 0;
 }
 
