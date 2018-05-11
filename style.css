@@ -16,6 +16,7 @@ html, body {
 }
 
 .container {
+  display: flex !important;
   margin: 60px !important;
 }
 
@@ -26,6 +27,14 @@ html, body {
 .icons {
   margin-right: 60px;
 }
+
+@media screen and (min-width: 1100px) {
+  .text {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
 
 .mybtn {
   border: 2px solid #f4fc83 !important;
@@ -61,12 +70,15 @@ body {
 
 .header {
   align-items: center;
-  background-color: #1b222d;
-  /* display: flex; */
+  background-color: #000000;
+  display: flex;
   font-size: 1em;
   font-weight: 700;
-  height: 90px !important;
+  height: 76px;
   justify-content: space-between;
+  position: fixed;
+  width: 100%;
+  z-index: 3;
 }
 
 .title {
@@ -87,7 +99,10 @@ body {
 }
 
 .text {
-  margin: 0 60px 0px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 120px 60px 0px 60px;
 }
 
 .subtitle {
@@ -218,6 +233,7 @@ ul > li > ul > li {
 }
 
 .map {
+  margin-top: 60px;
   transform: translateY(-30px);
   text-align: center;
   width: 600px;
@@ -256,4 +272,9 @@ ul > li > ul > li {
 
 .map {
   margin-bottom: 100px;
+}
+
+.cd-section .content-wrapper {
+  display: flex;
+  flex-direction: column;
 }

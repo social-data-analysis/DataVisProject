@@ -6,13 +6,6 @@ var width = 600,
     height = 600,
     centered;
 
-// var color = d3.scaleSequential(d3.interpolateMagma)
-//   .domain([0, 36]);
-
-// var color = ["#29303a", "#303944", "#31353a", "#006D2C"];
-
-// var colScale = d3.scale.ordinal().range(color);
-
 var map = d3.select("body").select(".map").append("svg")
   .attr("width", width)
   .attr("height", height);
