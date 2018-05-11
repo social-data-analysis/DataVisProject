@@ -1,10 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700');
-@import url('https://fonts.googleapis.com/css?family=Roboto');
-@import url('https://fonts.googleapis.com/css?family=Muli:300,400,700');
 @import url('https://fonts.googleapis.com/css?family=PT+Serif:400,700');
+@import url('https://fonts.googleapis.com/css?family=Comfortaa:300,400,700');
 
 * {
-  font-family: 'Muli', sans-serif;
+  font-family: 'Nunito', sans-serif;
 }
 
 html, body {
@@ -61,6 +60,7 @@ body {
 .title {
   margin: 20px 60px 20px 60px;
   background: linear-gradient(to right, #f4fc83, #54daf2);
+  font-family: 'Comfortaa', cursive;
  -webkit-background-clip: text;
  -webkit-text-fill-color: transparent;
 }
@@ -78,7 +78,8 @@ body {
 }
 
 .subtitle {
-  font-family: 'PT Serif';
+  font-family: 'Comfortaa', cursive;
+  font-size: 32px;
   color: #f4fc83;
   /* margin: 50px 0 30px 0; */
 }

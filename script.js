@@ -102,6 +102,12 @@ d3.json("districtsOfSF.json", function(json) {
    //  });
 
     d3.csv("./filmLocationsInSF.csv", function(data) {
+
+var count = data.filter(function(d) {
+  console.log(d);
+})
+
+console.log(count);
       g.selectAll("circle")
         .data(data)
         .enter()
