@@ -7,16 +7,20 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
-  <div class="header">
-    <div class="title">
-    SF MOVIE LOCATIONS
-   </div>
-   <div class="icons">
-     <a href="https://github.com/social-data-analysis/DataVisProject">
-       <div class="icon"><i class="fab fa-github"></i></div>
-     </a>
-   </div>
-  </div>
+    <nav class="header navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <ul class="navbar-nav mr-auto mt-10 mt-lg-0">
+        <li class="nav-item">
+          <div class="title">
+          SF MOVIE LOCATIONS
+         </div>
+        </li>
+      </ul>
+      <div class="my-2 my-lg-0">
+         <div class="icon my-2 my-sm-0"><i class="fab fa-github"></i></div>
+      </div>
+    </div>
+  </nav>
   <div class="content container">
     <div class="text row">
       <div class="col-md-6 leftPart">
@@ -29,9 +33,25 @@
         <div class="map"></div>
       </div>
     </div>
+    <div class="row">
+      <div class="btn-group myButtons" data-toggle="buttons">
+        <label class="btn mybtn active" id="Distributor">
+          <input type="radio" name="options"> Distributor
+        </label>
+        <label class="btn mybtn" id="Production_Company">
+          <input type="radio" name="options"> Production_Company
+        </label>
+        <label class="btn mybtn" id="Director">
+          <input type="radio" name="options"> Director
+        </label>
+      </div>
+    <div class="chart col-md-12"></div>
+    </div>
   </div>
-  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
   <script src="https://d3js.org/d3-scale-chromatic.v0.3.min.js"></script>
+  <script src="lib/jquery.js"></script>
+  <script src="lib/underscore.js"></script>
   <script src="./script.js"></script>
 </body>
 </html>

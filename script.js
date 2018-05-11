@@ -13,11 +13,6 @@ var width = 600,
 
 // var colScale = d3.scale.ordinal().range(color);
 
-// var color = d3.scaleLinear()
-//     .domain([1, step(2), step(3), step(4), step(5), step(6), step(7), 20])
-//     .range(["#8C5B79", "#777DA3", "#49A1B4", "#41BFA4", "#88D57F", "#E2E062"])
-//     .interpolate(d3.interpolateHclLong); //interpolateHsl interpolateHcl interpolateRgb
-
 var map = d3.select("body").select(".map").append("svg")
   .attr("width", width)
   .attr("height", height);
@@ -27,8 +22,8 @@ var tooltip = d3.select('body').append('div')
 
 var g = map.append("g");
 
-var projection = d3.geoMercator().scale(1).translate([0, 0]).precision(0);
-var path = d3.geoPath().projection(projection);
+var projection = d3.geo.mercator().scale(1).translate([0, 0]).precision(0);
+var path = d3.geo.path().projection(projection);
 
 d3.json("districtsOfSF.json", function(json) {
   var bounds = path.bounds(json);
@@ -50,7 +45,7 @@ d3.json("districtsOfSF.json", function(json) {
         return "#1b222d"
       })
       .style("stroke", function(d, i) {
-        return "#29303A"
+        return "#313a47"
       })
       .style("position", "relative")
       .style("z-index", 1)
@@ -101,13 +96,134 @@ d3.json("districtsOfSF.json", function(json) {
    //    };
    //  });
 
+   var categorical = [
+     { "name" : "schemeAccent", "n": 8},
+     { "name" : "schemeDark2", "n": 8},
+     { "name" : "schemePastel2", "n": 8},
+     { "name" : "schemeSet2", "n": 8},
+     { "name" : "schemeSet1", "n": 9},
+     { "name" : "schemePastel1", "n": 9},
+     { "name" : "schemeCategory10", "n" : 10},
+     { "name" : "schemeSet3", "n" : 12 },
+     { "name" : "schemePaired", "n": 12},
+     { "name" : "schemeCategory20", "n" : 20 },
+     { "name" : "schemeCategory20b", "n" : 20},
+     { "name" : "schemeCategory20c", "n" : 20 }
+   ]
+
     d3.csv("./filmLocationsInSF.csv", function(data) {
 
-var count = data.filter(function(d) {
-  console.log(d);
-})
+      var width = 1200, height = 1000;
+      var fill = d3.scale.ordinal().range(['#f4fc83','#54daf2'])
 
-console.log(count);
+      var svg = d3.select(".chart").append("svg")
+         .attr("width", width)
+         .attr("height", height);
+
+     for (var j = 0; j < data.length; j++) {
+       data[j].radius =+ 3;
+       data[j].x = Math.random() * width;
+       data[j].y = Math.random() * height;
+     }
+
+     var padding = 2;
+     var maxRadius = d3.max(_.pluck(data, 'radius'));
+
+     var getCenters = function (vname, size) {
+       var centers, map;
+       centers = _.uniq(_.pluck(data, vname)).map(function (d) {
+         return {name: d, value: 1};
+       });
+       console.log(centers)
+       map = d3.layout.treemap().size([width, height]);
+       map.nodes({children: centers});
+       return centers;
+     };
+
+     var nodes = svg.selectAll("circle")
+          .data(data);
+
+        nodes.enter().append("circle")
+          .attr("class", "node")
+          .attr("cx", function (d) { return d.x; })
+          .attr("cy", function (d) { return d.y; })
+          .attr("r", function (d) { return d.radius; })
+          .style("fill", function (d) { return fill(d.Director); })
+
+        var force = d3.layout.force();
+
+        draw('Production_Company');
+
+        $( ".btn" ).click(function() {
+          draw(this.id);
+        });
+
+        function draw (varname) {
+          var centers = getCenters(varname, [800, 800]);
+          force.on("tick", tick(centers, varname));
+          labels(centers)
+          force.start();
+        }
+
+        function tick (centers, varname) {
+          var foci = {};
+          for (var i = 0; i < centers.length; i++) {
+            foci[centers[i].name] = centers[i];
+          }
+          return function (e) {
+            for (var i = 0; i < data.length; i++) {
+              var o = data[i];
+              var f = foci[o[varname]];
+              o.y += ((f.y + (f.dy / 2)) - o.y) * e.alpha;
+              o.x += ((f.x + (f.dx / 2)) - o.x) * e.alpha;
+            }
+            nodes.each(collide(.11))
+              .attr("cx", function (d) { return d.x; })
+              .attr("cy", function (d) { return d.y; });
+          }
+        }
+
+        function labels (centers) {
+          svg.selectAll(".label").remove();
+
+          svg.selectAll(".label")
+          .data(centers).enter().append("text")
+          .attr("class", "label")
+          .text(function (d) { return d.name })
+          .attr("transform", function (d) {
+            return "translate(" + (d.x + (d.dx / 2)) + ", " + (d.y + 20) + ")";
+          });
+        }
+
+
+        function collide(alpha) {
+          var quadtree = d3.geom.quadtree(data);
+          return function (d) {
+            var r = d.radius + maxRadius + padding,
+                nx1 = d.x - r,
+                nx2 = d.x + r,
+                ny1 = d.y - r,
+                ny2 = d.y + r;
+            quadtree.visit(function(quad, x1, y1, x2, y2) {
+              if (quad.point && (quad.point !== d)) {
+                var x = d.x - quad.point.x,
+                    y = d.y - quad.point.y,
+                    l = Math.sqrt(x * x + y * y)
+                    r = d.radius + quad.point.radius + padding;
+                if (l < r) {
+                  l = (l - r) / l * alpha;
+                  d.x -= x *= l;
+                  d.y -= y *= l;
+                  quad.point.x += x;
+                  quad.point.y += y;
+                }
+              }
+              return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+            });
+          };
+        }
+
+
       g.selectAll("circle")
         .data(data)
         .enter()
@@ -129,6 +245,7 @@ console.log(count);
         .style("position", "absolute")
     })
 })
+
 
 function clicked(d) {
   var x, y, k;
