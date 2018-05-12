@@ -128,7 +128,7 @@ d3.json("districtsOfSF.json", function(json) {
     })
 })
 
-changeYear('2005-2018');
+changeYear('2015-2018');
 //
 d3.select('#decades').on("change", function () {
   var sect = document.getElementById("decades");
@@ -137,37 +137,36 @@ d3.select('#decades').on("change", function () {
 });
 
 
-var datasource;
+var datasource, from, to;
 var backUp=null;
 
 function changeYear(year){
   displayDots(year)
 }
 
-function displayDots(year){
-  var from = year.substr(0,year.indexOf('-'));
-  var to = year.substr(year.indexOf('-')+1,year.length);
+var widthBubbles = 1100, heightBubbles = 500;
+var fill = d3.scale.ordinal().range(['#f4fc83','#54daf2'])
 
+var svgBubbles = d3.select(".chart").append("svg")
+   .attr("width", widthBubbles)
+   .attr("height", heightBubbles);
+
+function displayDots(year){
+  from = year.substr(0,year.indexOf('-'));
+  to = year.substr(year.indexOf('-')+1,year.length);
   // svg.remove()
   d3.csv('filmLocationsInSF.csv', function(data) {
     data = data.filter((d)=>{
       return (d.Release_Year >= from && d.Release_Year <= to);
     });
 
-    var width = 800, height = 600;
-    var fill = d3.scale.ordinal().range(['#f4fc83','#54daf2'])
-
-    var svg = d3.select(".chart").append("svg")
-       .attr("width", width)
-       .attr("height", height);
-
    for (var j = 0; j < data.length; j++) {
      data[j].radius =+ 3;
-     data[j].x = Math.random() * width;
-     data[j].y = Math.random() * height;
+     data[j].x = Math.random() * widthBubbles;
+     data[j].y = Math.random() * heightBubbles;
    }
 
-   var padding = 2;
+   var padding = 3;
    var maxRadius = d3.max(_.pluck(data, 'radius'));
 
    var getCenters = function (vname, size) {
@@ -175,15 +174,12 @@ function displayDots(year){
      centers = _.uniq(_.pluck(data, vname)).map(function (d) {
        return {name: d, value: 1};
      });
-     map = d3.layout.treemap().size([width, height / 2]);
+     map = d3.layout.treemap().size([widthBubbles, heightBubbles / 1.2]);
      map.nodes({children: centers});
      return centers;
    };
 
-   if (nodes) {
-     nodes.exit().remove();
-   }
-   var nodes = svg.selectAll("circle")
+   var nodes = svgBubbles.selectAll("circle")
         .data(data);
 
       nodes.enter().append("circle")
@@ -228,9 +224,9 @@ function displayDots(year){
 
 
       function labels (centers) {
-        svg.selectAll(".label").remove();
+        svgBubbles.selectAll(".label").remove();
 
-        svg.selectAll(".label")
+        svgBubbles.selectAll(".label")
         .data(centers).enter().append("text")
         .attr("class", "label")
         .text(function (d) { return d.name })
