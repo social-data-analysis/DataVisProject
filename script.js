@@ -159,7 +159,7 @@ function displayDots(year){
 
 
    for (var j = 0; j < data.length; j++) {
-     data[j].radius =+ 3;
+     data[j].radius =+ 4;
      data[j].x = Math.random() * widthBubbles;
      data[j].y = Math.random() * heightBubbles;
    }
@@ -203,7 +203,7 @@ function displayDots(year){
           if (d.Title) {
             tooltip.classed('hidden', false)
               .attr('style', 'left:' + (mouse[0] + 390) + 'px; top:' + (mouse[1] + 150) + 'px')
-              .html("<p class=\"centerTip\">" + d.Title + "</p>");
+              .html("<p class=\"centerTip\"> Title: "+ d.Title + "</p>");
           };
         })
         .attr("r", function (d) { return d.radius; })
