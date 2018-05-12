@@ -128,7 +128,7 @@ d3.json("districtsOfSF.json", function(json) {
     })
 })
 
-changeYear('2015-2018');
+changeYear('1995-2005');
 //
 d3.select('#decades').on("change", function () {
   var sect = document.getElementById("decades");
@@ -145,7 +145,7 @@ function changeYear(year){
 }
 
 var widthBubbles = 1100, heightBubbles = 500;
-var fill = d3.scale.ordinal().range(['#f4fc83','#54daf2'])
+var fill = d3.scale.ordinal().range(['#f4fc83'])
 
 var svgBubbles = d3.select(".chart").append("svg")
    .attr("width", widthBubbles)
@@ -166,10 +166,10 @@ function displayDots(year){
      data[j].y = Math.random() * heightBubbles;
    }
 
-   var padding = 3;
+   var padding = 2;
    var maxRadius = d3.max(_.pluck(data, 'radius'));
 
-   var getCenters = function (vname, size) {
+   var getCenters = function (vname) {
      var centers, map;
      centers = _.uniq(_.pluck(data, vname)).map(function (d) {
        return {name: d, value: 1};
@@ -191,14 +191,14 @@ function displayDots(year){
 
       var force = d3.layout.force();
 
-      draw('Production_Company');
+      draw('Distributor');
 
       $( ".btn" ).click(function() {
         draw(this.id);
       });
 
       function draw (varname) {
-        var centers = getCenters(varname, [400, 400]);
+        var centers = getCenters(varname);
         force.on("tick", tick(centers, varname));
         labels(centers)
         force.start();
@@ -225,7 +225,6 @@ function displayDots(year){
 
       function labels (centers) {
         svgBubbles.selectAll(".label").remove();
-
         svgBubbles.selectAll(".label")
         .data(centers).enter().append("text")
         .attr("class", "label")
@@ -262,6 +261,7 @@ function displayDots(year){
           });
         };
       }
+      nodes.exit().remove()
   })
 }
 

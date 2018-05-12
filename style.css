@@ -35,11 +35,21 @@ html, body {
   }
 }
 
+#section2 {
+  margin-bottom: 100px;
+}
 
 .mybtn {
   border: 2px solid #f4fc83 !important;
   background-color: #313a47;
   color: #f4fc83;
+  margin: 5px;
+}
+
+.mybtnActive {
+  border: 2px solid #f4fc83 !important;
+  background-color: #f4fc83;
+  color: #313a47;
   margin: 5px;
 }
 
@@ -244,7 +254,7 @@ ul > li > ul > li {
 }
 
 .label {
-  fill: white;
+  fill: #eaeaea;
   font-weight: bold;
   opacity: 1;
   position: relative;
