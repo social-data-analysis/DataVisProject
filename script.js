@@ -307,8 +307,29 @@ d3.json("sunburst.json", function(error, root) {
       .attr("d", arc)
       .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
       .on("click", click)
-    .append("title")
-      .text(function(d) { return d.name + "\n" + formatNumber(d.value); });
+    .on("mouseover", function(d) {
+      d3.select(this)
+        .transition()
+        .duration(50)
+        .style("fill", "#091526");
+      })
+      .on("mouseout", function(d) {
+        tooltip.classed('hidden', true);
+        d3.select(this)
+          .transition()
+          .duration(50)
+          .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
+      })
+      .on("mousemove", function(d) {
+        var mouse = d3.mouse(sunburst.node()).map(function(d) {
+            return parseInt(d);
+        });
+        if (d.name) {
+          tooltip.classed('hidden', false)
+            .attr('style', 'left:' + (mouse[0] + 640) + 'px; top:' + (mouse[1] + 20) + 'px')
+            .html("<p class=\"centerTip\">" + d.name + "</p>");
+        };
+      });
 });
 
 function click(d) {
