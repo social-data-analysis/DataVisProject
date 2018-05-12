@@ -273,6 +273,9 @@ var sunburstWidth = 960,
     sunburstHeight = 700,
     sunburstRadius = (Math.min(sunburstWidth, sunburstHeight) / 2) - 10;
 
+var sunburstTooltip = d3.select('body').append('div')
+    .attr('class', 'hidden tooltip');
+
 var formatNumber = d3.format(",d");
 
 var x = d3.scale.linear()
@@ -314,7 +317,7 @@ d3.json("sunburst.json", function(error, root) {
         .style("fill", "#091526");
       })
       .on("mouseout", function(d) {
-        tooltip.classed('hidden', true);
+        sunburstTooltip.classed('hidden', true);
         d3.select(this)
           .transition()
           .duration(50)
@@ -325,7 +328,7 @@ d3.json("sunburst.json", function(error, root) {
             return parseInt(d);
         });
         if (d.name) {
-          tooltip.classed('hidden', false)
+          sunburstTooltip.classed('hidden', false)
             .attr('style', 'left:' + (mouse[0] + 640) + 'px; top:' + (mouse[1] + 20) + 'px')
             .html("<p class=\"centerTip\">" + d.name + "</p>");
         };
