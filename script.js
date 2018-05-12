@@ -89,21 +89,6 @@ d3.json("districtsOfSF.json", function(json) {
    //    };
    //  });
 
-   var categorical = [
-     { "name" : "schemeAccent", "n": 8},
-     { "name" : "schemeDark2", "n": 8},
-     { "name" : "schemePastel2", "n": 8},
-     { "name" : "schemeSet2", "n": 8},
-     { "name" : "schemeSet1", "n": 9},
-     { "name" : "schemePastel1", "n": 9},
-     { "name" : "schemeCategory10", "n" : 10},
-     { "name" : "schemeSet3", "n" : 12 },
-     { "name" : "schemePaired", "n": 12},
-     { "name" : "schemeCategory20", "n" : 20 },
-     { "name" : "schemeCategory20b", "n" : 20},
-     { "name" : "schemeCategory20c", "n" : 20 }
-   ]
-
     d3.csv("./filmLocationsInSF.csv", function(data) {
 
       g.selectAll("circle")
@@ -118,7 +103,7 @@ d3.json("districtsOfSF.json", function(json) {
           var coords = d.Coordinates.split(" ");
           return projection([coords[1], coords[0]])[1];
         })
-        .attr("r", 2.5)
+        .attr("r", 3)
         .attr("class", "non_brushed")
         .style("fill", function(d, i) {
           return "#f4fc83"
@@ -128,7 +113,7 @@ d3.json("districtsOfSF.json", function(json) {
     })
 })
 
-changeYear('1995-2005');
+changeYear('2005-2018');
 //
 d3.select('#decades').on("change", function () {
   var sect = document.getElementById("decades");
@@ -160,13 +145,26 @@ function displayDots(year){
       return (d.Release_Year >= from && d.Release_Year <= to);
     });
 
+    var aux = new Set();
+    var aux2 = []
+
+    data.map((movie, index)=>{
+      if ( !aux.has(movie.Title) ){
+        aux.add(movie.Title)
+        aux2.push(movie)
+      }
+    })
+
+    data = aux2;
+
+
    for (var j = 0; j < data.length; j++) {
      data[j].radius =+ 3;
      data[j].x = Math.random() * widthBubbles;
      data[j].y = Math.random() * heightBubbles;
    }
 
-   var padding = 2;
+   var padding = 3;
    var maxRadius = d3.max(_.pluck(data, 'radius'));
 
    var getCenters = function (vname) {
@@ -186,6 +184,28 @@ function displayDots(year){
         .attr("class", "node")
         .attr("cx", function (d) { return d.x; })
         .attr("cy", function (d) { return d.y; })
+        .attr("id", function(d){return d.Title;})
+        .on("mouseout", function(d) {
+          tooltip.classed('hidden', true);
+          d3.select(this)
+            .transition()
+            .duration(50)
+            .style("fill", "#f4fc83")
+        })
+        .on("mousemove", function(d) {
+          d3.select(this)
+            .transition()
+            .duration(50)
+            .style("fill", "black")
+          var mouse = d3.mouse(map.node()).map(function(d) {
+              return parseInt(d);
+          });
+          if (d.Title) {
+            tooltip.classed('hidden', false)
+              .attr('style', 'left:' + (mouse[0] + 390) + 'px; top:' + (mouse[1] + 150) + 'px')
+              .html("<p class=\"centerTip\">" + d.Title + "</p>");
+          };
+        })
         .attr("r", function (d) { return d.radius; })
         .style("fill", function (d) { return fill(d.Director); })
 
@@ -196,6 +216,8 @@ function displayDots(year){
       $( ".btn" ).click(function() {
         draw(this.id);
       });
+
+
 
       function draw (varname) {
         var centers = getCenters(varname);
@@ -233,7 +255,6 @@ function displayDots(year){
           return "translate(" + (d.x + (d.dx / 3)) + ", " + (d.y + 20) + ")";
         });
       }
-
 
       function collide(alpha) {
         var quadtree = d3.geom.quadtree(data);
