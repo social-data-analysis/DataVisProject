@@ -48,6 +48,10 @@ html, body {
   text-align: center;
 }
 
+.controls {
+  margin: 50px;
+}
+
 a {
   coursor: pointer;
 }
@@ -74,7 +78,7 @@ body {
   display: flex;
   font-size: 1em;
   font-weight: 700;
-  height: 76px;
+  height: 50px;
   justify-content: space-between;
   position: fixed;
   width: 100%;
