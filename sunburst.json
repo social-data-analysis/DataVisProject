@@ -1,0 +1,622 @@
+{
+    "name": "movies",
+    "children": [
+        {
+            "name": "01 Distribution",
+            "children": [
+                {
+                    "name": "Creative Monster Productions, Inc.",
+                    "children": [
+                        {"name": "Summertime","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Amazon Studios",
+            "children": [
+                {
+                    "name": "Big Indie Pictures",
+                    "children": [
+                        {"name": "Beautiful Boy","size": 1}
+                    ]
+                },
+                {
+                    "name": "Picrow Streaming Inc.",
+                    "children": [
+                        {"name": "Budding Prospects, Pilot","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "American Broadcasting Company (ABC)",
+            "children": [
+                {
+                    "name": "Beyond Pix",
+                    "children": [
+                        {"name": "Red Widow","size": 1}
+                    ]
+                },
+                {
+                    "name": "Columbia Pictures Corporation",
+                    "children": [
+                        {"name": "The Competition","size": 1}
+                    ]
+                },
+                {
+                    "name": "Film 49 Productions",
+                    "children": [
+                        {"name": "When We Rise","size": 1}
+                    ]
+                },
+                {
+                    "name": "Warner Brothers",
+                    "children": [
+                        {"name": "Freebie and the Bean","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Associated Film Distribution (AFD)",
+            "children": [
+                {
+                    "name": "EMI Films",
+                    "children": [
+                        {"name": "Can't Stop the Music","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Atlantic Releasing Corporation",
+            "children": [
+                {
+                    "name": "Atlantic Entertainment Group",
+                    "children": [
+                        {"name": "Patty Hearst","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Buena Vista Distribution",
+            "children": [
+                {
+                    "name": "Walt Disney Productions",
+                    "children": [
+                        {"name": "The Love Bug","size": 1},
+                        {"name": "Herbie Rides Again","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Columbia Pictures",
+            "children": [
+                {
+                    "name": "Columbia Pictures Corp.",
+                    "children": [
+                        {"name": "Experiment in Terror","size": 1},
+                        {"name": "Good NeighborSam","size": 1},
+                        {"name": "Quicksilver","size": 1},
+                        {"name": "Guess Who's Coming to Dinner","size": 1},
+                        {"name": "The Lady from Shanghai","size": 1},
+                        {"name": "Pal Joey","size": 1},
+                        {"name": "Jagged Edge","size": 1}
+                    ]
+                },
+                {
+                    "name": "Orion Pictures",
+                    "children": [
+                        {"name": "Time After Time","size": 1}
+                    ]
+                },
+                {
+                    "name": "Pajemer Productions",
+                    "children": [
+                        {"name": "The Lineup","size": 1}
+                    ]
+                },
+                {
+                    "name": "Clover Productions",
+                    "children": [
+                        {"name": "It Came From Beneath the Sea","size": 1}
+                    ]
+                },
+                {
+                    "name": "Stanley Kramer Productions",
+                    "children": [
+                        {"name": "The Caine Mutiny","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Eagle Films",
+            "children": [
+                {
+                    "name": "Divisadero Pictures & Knife Fight",
+                    "children": [
+                        {"name": "Knife Fight","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Embassy Pictures Corporation",
+            "children": [
+                {
+                    "name": "Embassy Pictures Corporation",
+                    "children": [
+                        {"name": "The Graduate","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Geffen Pictures",
+            "children": [
+                {
+                    "name": "Geffen Pictures",
+                    "children": [
+                        {"name": "Interview With The Vampire","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "HBO",
+            "children": [
+                {
+                    "name": "Brown Hill Productions, LLC",
+                    "children": [
+                        {"name": "Silicon Valley Season 4","size": 1}
+                    ]
+                },
+                {
+                    "name": "Chori Perros Productions, LLC",
+                    "children": [
+                        {"name": "Ballers Season 3","size": 1}
+                    ]
+                },
+                {
+                    "name": "Mission Street Productions, LLC",
+                    "children": [
+                        {"name": "Looking","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "HULU",
+            "children": [
+                {
+                    "name": "TVM Productions",
+                    "children": [
+                        {"name": "Chance","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Kylin Pictures",
+            "children": [
+                {
+                    "name": "BOTD U.S. Productions, Inc.",
+                    "children": [
+                        {"name": "Birth of the Dragon","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Metro Goldwyn Mayer",
+            "children": [
+                {
+                    "name": "Metro Goldwyn Mayer",
+                    "children": [
+                        {"name": "Greed","size": 1},
+                        {"name": "A View to a Kill","size": 1},
+                        {"name": "Point Blank","size": 1},
+                        {"name": "After the Thin Man","size": 1},
+                        {"name": "Shadow of the Thin Man","size": 1},
+                        {"name": "San Francisco","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "National Broadcasting Company (NBC)",
+            "children": [
+                {
+                    "name": "Hollywood Pictures",
+                    "children": [
+                        {"name": "Joy Luck Club","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Netflix",
+            "children": [
+                {
+                    "name": "Unpronounceable Productions, LLC",
+                    "children": [
+                        {"name": "Sense8 - Season 2","size": 1}
+                    ]
+                },
+                {
+                    "name": "Hippolyta Productions, LLC",
+                    "children": [
+                        {"name": "GirlBoss","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "New Yorker Films",
+            "children": [
+                {
+                    "name": "New Yorker Films",
+                    "children": [
+                        {"name": "Chan is Missing","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Orion Pictures",
+            "children": [
+                {
+                    "name": "CIM",
+                    "children": [
+                        {"name": "Dim Sum: A Little Bit of Heart","size": 1}
+                    ]
+                },
+                {
+                    "name": "Orion Pictures",
+                    "children": [
+                        {"name": "Heart Beat","size": 1}
+                    ]
+                },
+                {
+                    "name": "Elsboy Entertainment",
+                    "children": [
+                        {"name": "Maxie","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Paramount Pictures",
+            "children": [
+                {
+                    "name": "Paramount Pictures",
+                    "children": [
+                        {"name": "Play it Again, Sam","size": 1},
+                        {"name": "Star Trek II : The Wrath of Khan","size": 1},
+                        {"name": "Star Trek IV: The Voyage Home","size": 1},
+                        {"name": "Star Trek VI: The Undiscovered Country","size": 1},
+                        {"name": "Jade","size": 1},
+                        {"name": "Escape From Alcatraz","size": 1},
+                        {"name": "The Presidio","size": 1},
+                        {"name": "The Ten Commandments","size": 1},
+                        {"name": "Foul Play","size": 1}
+                    ]
+                },
+                {
+                    "name": "American Zoetrope",
+                    "children": [
+                        {"name": "The Conversation","size": 1}
+                    ]
+                },
+                {
+                    "name": "Perlsea Company",
+                    "children": [
+                        {"name": "Pleasure of His Company","size": 1}
+                    ]
+                },
+                {
+                    "name": "Alfred J. Hitchcock Productions",
+                    "children": [
+                        {"name": "Vertigo","size": 1}
+                    ]
+                },
+                {
+                    "name": "Lucasfilm",
+                    "children": [
+                        {"name": "Tucker: The Man and His Dream","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Polygram Filmed Entertainment",
+            "children": [
+                {
+                    "name": "Polygram Filmed Entertainment",
+                    "children": [
+                        {"name": "The Game","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "RKO Pictures",
+            "children": [
+                {
+                    "name": "RKO Radio Pictures",
+                    "children": [
+                        {"name": "I Remember Mama","size": 1}
+                    ]
+                },
+                {
+                    "name": "Joseph Kaufmann Pictures",
+                    "children": [
+                        {"name": "Sudden Fear","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Sony Pictures Classics",
+            "children": [
+                {
+                    "name": "Perdido Productions",
+                    "children": [
+                        {"name": "Blue Jasmine","size": 1}
+                    ]
+                },
+                {
+                    "name": "Diary the Movie, LLC",
+                    "children": [
+                        {"name": "The Diary of a Teenage Girl","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "TBD",
+            "children": [
+                {
+                    "name": "Pushing Dead , LLC",
+                    "children": [
+                        {"name": "Pushing Dead","size": 1}
+                    ]
+                },
+                {
+                    "name": "Po Valley Productions, LLC",
+                    "children": [
+                        {"name": "Etruscan Smile","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "TC Films International",
+            "children": [
+                {
+                    "name": "UCLA Film and Television Archive",
+                    "children": [
+                        {"name": "The Times of Harvey Milk","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "The Ladd Company",
+            "children": [
+                {
+                    "name": "The Ladd Company",
+                    "children": [
+                        {"name": "The Right Stuff","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "TriStar Pictures",
+            "children": [
+                {
+                    "name": "Carolco Pictures",
+                    "children": [
+                        {"name": "Basic Instinct","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Turner Network Television (TNT)",
+            "children": [
+                {
+                    "name": "Turner North Center Productions",
+                    "children": [
+                        {"name": "Murder in the First","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Twentieth Century Fox",
+            "children": [
+                {
+                    "name": "Twentieth Century Fox",
+                    "children": [
+                        {"name": "Alexander's Ragtime Band","size": 1},
+                        {"name": "All About Eve","size": 1},
+                        {"name": "The Internship","size": 1},
+                        {"name": "Swingin' Along","size": 1},
+                        {"name": "High Anxiety","size": 1},
+                        {"name": "Mrs. Doubtfire","size": 1},
+                        {"name": "The House on Telegraph Hill","size": 1}
+                    ]
+                },
+                {
+                    "name": "Irwin Allen Productions",
+                    "children": [
+                        {"name": "The Towering Inferno","size": 1}
+                    ]
+                },
+                {
+                    "name": "Fox Louisiana Productions, LLC",
+                    "children": [
+                        {"name": "Dawn of the Planet of the Apes","size": 1}
+                    ]
+                },
+                {
+                    "name": "1492 Pictures",
+                    "children": [
+                        {"name": "Nine Months","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "United Artists",
+            "children": [
+                {
+                    "name": "Norma Productions",
+                    "children": [
+                        {"name": "Birdman of Alcatraz","size": 1}
+                    ]
+                },
+                {
+                    "name": "Cardinal Pictures",
+                    "children": [
+                        {"name": "D.O.A","size": 1}
+                    ]
+                },
+                {
+                    "name": "Solofilm",
+                    "children": [
+                        {"name": "Invasion of the Body Snatchers","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Universal Pictures",
+            "children": [
+                {
+                    "name": "Universal Pictures",
+                    "children": [
+                        {"name": "The Birds","size": 1},
+                        {"name": "American Graffiti","size": 1},
+                        {"name": "Crackers","size": 1},
+                        {"name": "Family Plot","size": 1}
+                    ]
+                },
+                {
+                    "name": "Troma Entertainment",
+                    "children": [
+                        {"name": "Vegas in Space","size": 1}
+                    ]
+                },
+                {
+                    "name": "Fidelity Pictures Corporation",
+                    "children": [
+                        {"name": "Woman on the Run","size": 1}
+                    ]
+                },
+                {
+                    "name": "RDF Productions LLC",
+                    "children": [
+                        {"name": "Steve Jobs","size": 1}
+                    ]
+                },
+                {
+                    "name": "Arwin Productions",
+                    "children": [
+                        {"name": "Midnight Lace","size": 1}
+                    ]
+                },
+                {
+                    "name": "Northern Lights Entertainment",
+                    "children": [
+                        {"name": "Junior","size": 1}
+                    ]
+                },
+                {
+                    "name": "Fields Productions",
+                    "children": [
+                        {"name": "Flower Drum Song","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Walt Disney Studios Motion Pictures",
+            "children": [
+                {
+                    "name": "Need For Speed Productions, LLC",
+                    "children": [
+                        {"name": "Need For Speed","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Warner Brothers",
+            "children": [
+                {
+                    "name": "Warner Brothers",
+                    "children": [
+                        {"name": "Bullitt","size": 1},
+                        {"name": "Dark Passage","size": 1},
+                        {"name": "Gentleman Jim","size": 1},
+                        {"name": "The Dead Pool","size": 1},
+                        {"name": "Nora Prentiss","size": 1},
+                        {"name": "The Enforcer","size": 1},
+                        {"name": "Petulia","size": 1},
+                        {"name": "Sudden Impact","size": 1},
+                        {"name": "The Maltese Falcon","size": 1},
+                        {"name": "Memoirs of an Invisible Man","size": 1}
+                    ]
+                },
+                {
+                    "name": "Dovemead Films",
+                    "children": [
+                        {"name": "Superman","size": 1}
+                    ]
+                },
+                {
+                    "name": "Spring Creek Productions",
+                    "children": [
+                        {"name": "Fearless","size": 1}
+                    ]
+                },
+                {
+                    "name": "Nautilus Productions, LLC",
+                    "children": [
+                        {"name": "Godzilla","size": 1}
+                    ]
+                },
+                {
+                    "name": "Amblin Entertainment",
+                    "children": [
+                        {"name": "Innerspace","size": 1}
+                    ]
+                },
+                {
+                    "name": "The Malpaso Company",
+                    "children": [
+                        {"name": "Magnum Force","size": 1}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Weinstein Company",
+            "children": [
+                {
+                    "name": "Blink & Wink Productions",
+                    "children": [
+                        {"name": "Big Eyes","size": 1}
+                    ]
+                }
+            ]
+        }
+    ]
+}

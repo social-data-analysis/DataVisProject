@@ -294,3 +294,88 @@ function clicked(d) {
       .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
       .style("stroke-width", 1.5 / k + "px");
 }
+
+//----------------------------------------------------------------------------------------------------------------------
+// SUNBURST
+//----------------------------------------------------------------------------------------------------------------------
+
+var sunburstWidth = 960,
+    sunburstHeight = 700,
+    sunburstRadius = (Math.min(sunburstWidth, sunburstHeight) / 2) - 10;
+
+var sunburstTooltip = d3.select('body').append('div')
+    .attr('class', 'hidden tooltip');
+
+var formatNumber = d3.format(",d");
+
+var x = d3.scale.linear()
+    .range([0, 2 * Math.PI]);
+
+var y = d3.scale.sqrt()
+    .range([0, sunburstRadius]);
+
+var color = d3.scale.category20c();
+
+var partition = d3.layout.partition()
+    .value(function(d) { return d.size; });
+
+var arc = d3.svg.arc()
+    .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
+    .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
+    .innerRadius(function(d) { return Math.max(0, y(d.y)); })
+    .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
+
+var sunburst = d3.select("body").select(".sunburst").append("svg")
+    .attr("width", sunburstWidth)
+    .attr("height", sunburstHeight)
+  .append("g")
+    .attr("transform", "translate(" + sunburstWidth / 2 + "," + (sunburstHeight / 2) + ")");
+
+d3.json("sunburst.json", function(error, root) {
+  if (error) throw error;
+
+  sunburst.selectAll("path")
+      .data(partition.nodes(root))
+    .enter().append("path")
+      .attr("d", arc)
+      .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
+      .on("click", click)
+    .on("mouseover", function(d) {
+      d3.select(this)
+        .transition()
+        .duration(50)
+        .style("fill", "#091526");
+      })
+      .on("mouseout", function(d) {
+        sunburstTooltip.classed('hidden', true);
+        d3.select(this)
+          .transition()
+          .duration(50)
+          .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
+      })
+      .on("mousemove", function(d) {
+        var mouse = d3.mouse(sunburst.node()).map(function(d) {
+            return parseInt(d);
+        });
+        if (d.name) {
+          sunburstTooltip.classed('hidden', false)
+            .attr('style', 'left:' + (mouse[0] + 640) + 'px; top:' + (mouse[1] + 20) + 'px')
+            .html("<p class=\"centerTip\">" + d.name + "</p>");
+        };
+      });
+});
+
+function click(d) {
+  sunburst.transition()
+      .duration(750)
+      .tween("scale", function() {
+        var xd = d3.interpolate(x.domain(), [d.x, d.x + d.dx]),
+            yd = d3.interpolate(y.domain(), [d.y, 1]),
+            yr = d3.interpolate(y.range(), [d.y ? 20 : 0, sunburstRadius]);
+        return function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); };
+      })
+    .selectAll("path")
+      .attrTween("d", function(d) { return function() { return arc(d); }; });
+}
+
+d3.select(self.frameElement).style("height", sunburstHeight + "px");
