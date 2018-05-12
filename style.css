@@ -278,3 +278,7 @@ ul > li > ul > li {
   display: flex;
   flex-direction: column;
 }
+
+path {
+  stroke: #313a47;
+}
