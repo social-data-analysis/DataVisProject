@@ -46,6 +46,18 @@ html, body {
   margin: 5px;
 }
 
+.mybtn:hover {
+  color: #f4fc83 !important;
+}
+
+.mybtnActive:hover {
+  color: #313a47 !important;
+}
+
+.bold {
+  font-weight: bold;
+}
+
 .mybtnActive {
   border: 2px solid #f4fc83 !important;
   background-color: #f4fc83;

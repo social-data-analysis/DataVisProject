@@ -67,28 +67,6 @@ d3.json("districtsOfSF.json", function(json) {
        })
        .on("click", clicked);
 
-
-   // //Create one label per borough
-   // map.selectAll("text")
-   //  .data(json.features)
-   //  .enter()
-   //  .append("text")
-   //  .attr("class", "label")
-   //  .attr("x", function(d) {
-   //    return path.centroid(d)[0] - 30;
-   //  })
-   //  .attr("y", function(d) {
-   //    return path.centroid(d)[1];
-   //  })
-   //  .style("z-index", 4)
-   //  .style("position", "relative")
-   //  .style("font-size", 10)
-   //  .text(function(d) {
-   //    if (d.properties.name) {
-   //      return d.properties.name;
-   //    };
-   //  });
-
     d3.csv("./filmLocationsInSF.csv", function(data) {
 
       g.selectAll("circle")
@@ -114,7 +92,7 @@ d3.json("districtsOfSF.json", function(json) {
 })
 
 changeYear('2005-2018');
-//
+
 d3.select('#decades').on("change", function () {
   var sect = document.getElementById("decades");
 	var section = sect.options[sect.selectedIndex].value;
@@ -139,7 +117,6 @@ var svgBubbles = d3.select(".chart").append("svg")
 function displayDots(year){
   from = year.substr(0,year.indexOf('-'));
   to = year.substr(year.indexOf('-')+1,year.length);
-  // svg.remove()
 
   d3.csv('filmLocationsInSF.csv', function(data) {
     d3.csv('location_count.csv', function(locations) {
@@ -160,24 +137,31 @@ function displayDots(year){
 
      data = aux2;
 
-     var x = d3.scale.linear()
-      .range([d3.min(locations, function(d) {return d[0];}), d3.max(locations, function(d) { return d[1]; })])
-      .domain([2, 10]);
+     var arrayOfLocationCounts = []
+     locations.forEach((location) => {
+       arrayOfLocationCounts.push(parseInt(location.LocationsCount))
+     })
 
-      console.log(d3.min(locations, function(d) {return d[0];})
+     var x = d3.scale.linear()
+      .domain([d3.min(arrayOfLocationCounts), d3.max(arrayOfLocationCounts)])
+      .range([4, 15]);
 
      for (var j = 0; j < data.length; j++) {
        locations.forEach((info, index)=>{
-         if(info.Title === data[j].Title) {
+         if(info.Title === data[j].Title || info.Title === data[j].Title.split(",")[0] || info.Title === data[j].Title.split(" - ")[0]) {
+           console.log(info.Title, data[j].Title)
            data[j].radius =+ x(locations[index].LocationsCount)
          }
+         // else{
+         //   data[j].radius = 4
+         // }
        })
 
        data[j].x = Math.random() * widthBubbles;
        data[j].y = Math.random() * heightBubbles;
      }
 
-     var padding = 3;
+     var padding = 5;
      var maxRadius = d3.max(_.pluck(data, 'radius'));
 
      var getCenters = function (vname) {
@@ -215,8 +199,9 @@ function displayDots(year){
             });
             if (d.Title) {
               tooltip.classed('hidden', false)
-                .attr('style', 'left:' + (mouse[0] + 390) + 'px; top:' + (mouse[1] + 150) + 'px')
-                .html("<p class=\"centerTip\"> Title: "+ d.Title + "</p>");
+                .attr('style', 'left:' + (mouse[0] + 380) + 'px; top:' + (mouse[1] + 250) + 'px')
+                .html("<p class=\"centerTip\"> <span class=\"bold\">Title:</span> "+ d.Title + "</p>" +
+                "<p class=\"centerTip\"><span class=\"bold\">Director:</span> " + d.Director + "</p>");
             };
           })
           .attr("r", function (d) { return d.radius; })
@@ -226,11 +211,15 @@ function displayDots(year){
 
         draw('Distributor');
 
+        var buttons = ['Distributor', 'Production_Company', 'Director']
+
         $( ".btn" ).click(function() {
+          buttons.forEach((btn) => {
+            $("#" + btn).removeClass("mybtnActive")
+          })
+          $("#" + this.id).addClass("mybtnActive")
           draw(this.id);
         });
-
-
 
         function draw (varname) {
           var centers = getCenters(varname);
