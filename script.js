@@ -140,150 +140,165 @@ function displayDots(year){
   from = year.substr(0,year.indexOf('-'));
   to = year.substr(year.indexOf('-')+1,year.length);
   // svg.remove()
+
   d3.csv('filmLocationsInSF.csv', function(data) {
-    data = data.filter((d)=>{
-      return (d.Release_Year >= from && d.Release_Year <= to);
-    });
-
-    var aux = new Set();
-    var aux2 = []
-
-    data.map((movie, index)=>{
-      if ( !aux.has(movie.Title) ){
-        aux.add(movie.Title)
-        aux2.push(movie)
-      }
-    })
-
-    data = aux2;
-
-
-   for (var j = 0; j < data.length; j++) {
-     data[j].radius =+ 4;
-     data[j].x = Math.random() * widthBubbles;
-     data[j].y = Math.random() * heightBubbles;
-   }
-
-   var padding = 3;
-   var maxRadius = d3.max(_.pluck(data, 'radius'));
-
-   var getCenters = function (vname) {
-     var centers, map;
-     centers = _.uniq(_.pluck(data, vname)).map(function (d) {
-       return {name: d, value: 1};
-     });
-     map = d3.layout.treemap().size([widthBubbles, heightBubbles / 1.2]);
-     map.nodes({children: centers});
-     return centers;
-   };
-
-   var nodes = svgBubbles.selectAll("circle")
-        .data(data);
-
-      nodes.enter().append("circle")
-        .attr("class", "node")
-        .attr("cx", function (d) { return d.x; })
-        .attr("cy", function (d) { return d.y; })
-        .attr("id", function(d){return d.Title;})
-        .on("mouseout", function(d) {
-          tooltip.classed('hidden', true);
-          d3.select(this)
-            .transition()
-            .duration(50)
-            .style("fill", "#f4fc83")
-        })
-        .on("mousemove", function(d) {
-          d3.select(this)
-            .transition()
-            .duration(50)
-            .style("fill", "black")
-          var mouse = d3.mouse(map.node()).map(function(d) {
-              return parseInt(d);
-          });
-          if (d.Title) {
-            tooltip.classed('hidden', false)
-              .attr('style', 'left:' + (mouse[0] + 390) + 'px; top:' + (mouse[1] + 150) + 'px')
-              .html("<p class=\"centerTip\"> Title: "+ d.Title + "</p>");
-          };
-        })
-        .attr("r", function (d) { return d.radius; })
-        .style("fill", function (d) { return fill(d.Director); })
-
-      var force = d3.layout.force();
-
-      draw('Distributor');
-
-      $( ".btn" ).click(function() {
-        draw(this.id);
+    d3.csv('location_count.csv', function(locations) {
+      console.log(locations)
+      data = data.filter((d)=>{
+        return (d.Release_Year >= from && d.Release_Year <= to);
       });
 
+      var aux = new Set();
+      var aux2 = []
 
-
-      function draw (varname) {
-        var centers = getCenters(varname);
-        force.on("tick", tick(centers, varname));
-        labels(centers)
-        force.start();
-      }
-
-      function tick (centers, varname) {
-        var foci = {};
-        for (var i = 0; i < centers.length; i++) {
-          foci[centers[i].name] = centers[i];
+      data.map((movie, index)=>{
+        if ( !aux.has(movie.Title) ){
+          aux.add(movie.Title)
+          aux2.push(movie)
         }
-        return function (e) {
-          for (var i = 0; i < data.length; i++) {
-            var o = data[i];
-            var f = foci[o[varname]];
-            o.y += ((f.y + (f.dy / 2)) - o.y) * e.alpha;
-            o.x += ((f.x + (f.dx / 2)) - o.x) * e.alpha;
-          }
-          nodes.each(collide(.11))
-            .attr("cx", function (d) { return d.x; })
-            .attr("cy", function (d) { return d.y; });
-        }
-      }
+      })
 
+     data = aux2;
 
-      function labels (centers) {
-        svgBubbles.selectAll(".label").remove();
-        svgBubbles.selectAll(".label")
-        .data(centers).enter().append("text")
-        .attr("class", "label")
-        .text(function (d) { return d.name })
-        .attr("transform", function (d) {
-          return "translate(" + (d.x + (d.dx / 3)) + ", " + (d.y + 20) + ")";
+     var x = d3.scale.linear()
+      .range([d3.min(locations, function(d) {return d[0];}), d3.max(locations, function(d) { return d[1]; })])
+      .domain([2, 10]);
+
+      console.log(d3.min(locations, function(d) {return d[0];})
+
+     for (var j = 0; j < data.length; j++) {
+       locations.forEach((info, index)=>{
+         if(info.Title === data[j].Title) {
+           data[j].radius =+ x(locations[index].LocationsCount)
+         }
+       })
+
+       data[j].x = Math.random() * widthBubbles;
+       data[j].y = Math.random() * heightBubbles;
+     }
+
+     var padding = 3;
+     var maxRadius = d3.max(_.pluck(data, 'radius'));
+
+     var getCenters = function (vname) {
+       var centers, map;
+       centers = _.uniq(_.pluck(data, vname)).map(function (d) {
+         return {name: d, value: 1};
+       });
+       map = d3.layout.treemap().size([widthBubbles, heightBubbles / 1.2]);
+       map.nodes({children: centers});
+       return centers;
+     };
+
+     var nodes = svgBubbles.selectAll("circle")
+          .data(data);
+
+        nodes.enter().append("circle")
+          .attr("class", "node")
+          .attr("cx", function (d) { return d.x; })
+          .attr("cy", function (d) { return d.y; })
+          .attr("id", function(d){return d.Title;})
+          .on("mouseout", function(d) {
+            tooltip.classed('hidden', true);
+            d3.select(this)
+              .transition()
+              .duration(50)
+              .style("fill", "#f4fc83")
+          })
+          .on("mousemove", function(d) {
+            d3.select(this)
+              .transition()
+              .duration(50)
+              .style("fill", "black")
+            var mouse = d3.mouse(map.node()).map(function(d) {
+                return parseInt(d);
+            });
+            if (d.Title) {
+              tooltip.classed('hidden', false)
+                .attr('style', 'left:' + (mouse[0] + 390) + 'px; top:' + (mouse[1] + 150) + 'px')
+                .html("<p class=\"centerTip\"> Title: "+ d.Title + "</p>");
+            };
+          })
+          .attr("r", function (d) { return d.radius; })
+          .style("fill", function (d) { return fill(d.Director); })
+
+        var force = d3.layout.force();
+
+        draw('Distributor');
+
+        $( ".btn" ).click(function() {
+          draw(this.id);
         });
-      }
 
-      function collide(alpha) {
-        var quadtree = d3.geom.quadtree(data);
-        return function (d) {
-          var r = d.radius + maxRadius + padding,
-              nx1 = d.x - r,
-              nx2 = d.x + r,
-              ny1 = d.y - r,
-              ny2 = d.y + r;
-          quadtree.visit(function(quad, x1, y1, x2, y2) {
-            if (quad.point && (quad.point !== d)) {
-              var x = d.x - quad.point.x,
-                  y = d.y - quad.point.y,
-                  l = Math.sqrt(x * x + y * y)
-                  r = d.radius + quad.point.radius + padding;
-              if (l < r) {
-                l = (l - r) / l * alpha;
-                d.x -= x *= l;
-                d.y -= y *= l;
-                quad.point.x += x;
-                quad.point.y += y;
-              }
+
+
+        function draw (varname) {
+          var centers = getCenters(varname);
+          force.on("tick", tick(centers, varname));
+          labels(centers)
+          force.start();
+        }
+
+        function tick (centers, varname) {
+          var foci = {};
+          for (var i = 0; i < centers.length; i++) {
+            foci[centers[i].name] = centers[i];
+          }
+          return function (e) {
+            for (var i = 0; i < data.length; i++) {
+              var o = data[i];
+              var f = foci[o[varname]];
+              o.y += ((f.y + (f.dy / 2)) - o.y) * e.alpha;
+              o.x += ((f.x + (f.dx / 2)) - o.x) * e.alpha;
             }
-            return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+            nodes.each(collide(.11))
+              .attr("cx", function (d) { return d.x; })
+              .attr("cy", function (d) { return d.y; });
+          }
+        }
+
+
+        function labels (centers) {
+          svgBubbles.selectAll(".label").remove();
+          svgBubbles.selectAll(".label")
+          .data(centers).enter().append("text")
+          .attr("class", "label")
+          .text(function (d) { return d.name })
+          .attr("transform", function (d) {
+            return "translate(" + (d.x + (d.dx / 3)) + ", " + (d.y + 20) + ")";
           });
-        };
-      }
-      nodes.exit().remove()
-  })
+        }
+
+        function collide(alpha) {
+          var quadtree = d3.geom.quadtree(data);
+          return function (d) {
+            var r = d.radius + maxRadius + padding,
+                nx1 = d.x - r,
+                nx2 = d.x + r,
+                ny1 = d.y - r,
+                ny2 = d.y + r;
+            quadtree.visit(function(quad, x1, y1, x2, y2) {
+              if (quad.point && (quad.point !== d)) {
+                var x = d.x - quad.point.x,
+                    y = d.y - quad.point.y,
+                    l = Math.sqrt(x * x + y * y)
+                    r = d.radius + quad.point.radius + padding;
+                if (l < r) {
+                  l = (l - r) / l * alpha;
+                  d.x -= x *= l;
+                  d.y -= y *= l;
+                  quad.point.x += x;
+                  quad.point.y += y;
+                }
+              }
+              return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+            });
+          };
+        }
+        nodes.exit().remove()
+    })
+    })
+
 }
 
 
