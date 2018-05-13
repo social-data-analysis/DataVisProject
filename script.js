@@ -357,18 +357,8 @@ d3.json("sunburst.json", function(error, root) {
       .attr("d", arc)
       .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
       .on("click", click)
-    .on("mouseover", function(d) {
-      d3.select(this)
-        .transition()
-        .duration(50)
-        .style("fill", "#091526");
-      })
       .on("mouseout", function(d) {
         sunburstTooltip.classed('hidden', true);
-        d3.select(this)
-          .transition()
-          .duration(50)
-          .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
       })
       .on("mousemove", function(d) {
         var mouse = d3.mouse(sunburst.node()).map(function(d) {
