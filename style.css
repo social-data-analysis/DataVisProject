@@ -278,3 +278,47 @@ ul > li > ul > li {
   display: flex;
   flex-direction: column;
 }
+
+.axisX line{
+  stroke: #eaeaea;
+}
+
+.axisX path{
+  stroke: #eaeaea;
+}
+
+.axisX text{
+  fill: #eaeaea;
+}
+
+.axisY line{
+  stroke: #eaeaea;
+}
+
+.axisY path{
+  stroke: #eaeaea;
+}
+
+.axisY text{
+  fill: #eaeaea;
+}  
+
+@media screen and (min-width: 1100px) {
+  .charts {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 80px;
+  }
+}
+
+.charts {
+  align-items: center;
+  /* display: flex; */
+  /* flex-direction: column; */
+}
+
+.histogram {
+  display: flex;
+  align-items: center;
+}

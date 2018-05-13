@@ -30,10 +30,13 @@
             </div>
           <div class="text">
                 <h1 class="subtitle">Movie locations in San Francisco</h1>
-                <p>The map shows movie locations in San Francisco between 1900 - 1900</p>
-                <div class="histogram"></div>
+                <!-- <p>If you love movies, and you love San Francisco, you're bound to love this -- we are going to discover meaningful patterns related to the movies that were shot in 
+                  San Francisco starting from 1924.</p> -->
+          </div>
+          <div class="charts">
+              <div class="histogram"></div>
               <div class="map"></div>
-            </div>
+          </div>
       </div>
     </section><!-- cd-section -->
     
@@ -72,7 +75,15 @@
       </div>
     </section><!-- cd-section -->
   <script src="https://d3js.org/d3.v3.min.js"></script>
-  <script src="https://d3js.org/d3-scale-chromatic.v0.3.min.js"></script>
+  <script>
+    d3v3 = d3
+    window.d3 = null
+  </script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script>
+      d3v4 = d3
+      window.d3 = null
+  </script>
   <script src="lib/jquery.js"></script>
   <script src="lib/modernizr.js"></script>
   <script src="lib/underscore.js"></script>
