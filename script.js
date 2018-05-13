@@ -146,12 +146,18 @@ function displayDots(year){
       .domain([d3.min(arrayOfLocationCounts), d3.max(arrayOfLocationCounts)])
       .range([4, 15]);
 
+    var test = {}
+
      for (var j = 0; j < data.length; j++) {
+
        locations.forEach((info, index)=>{
          if(info.Title === data[j].Title || info.Title === data[j].Title.split(",")[0] || info.Title === data[j].Title.split(" - ")[0]) {
-           console.log(info.Title, data[j].Title)
            data[j].numberOfLocations =+ locations[index].LocationsCount;
+           console.log(info.Title, data[j].Title + ' index: ' + index + ' j: ' +j + ' radius :' +data[j].radius )
+
            data[j].radius =+ x(locations[index].LocationsCount);
+           console.log(info.Title, data[j].Title + ' index: ' + index + ' j: ' +j + ' radius :' +data[j].radius )
+
          }
        })
 
@@ -389,9 +395,7 @@ d3.json("sunburst.json", function(error, root) {
             .attr('style', 'left:' + (mouse[0] + 640) + 'px; top:' + (mouse[1] + 20) + 'px')
             .html("<p class=\"centerTip\">" + d.name + "</p>");
         };
-      })
-      .append("title")
-        .text(function(d) { return d.name + "\n" + formatNumber(d.value); });
+      });
 });
 
 // Zoom in when clicked.

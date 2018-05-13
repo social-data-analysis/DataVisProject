@@ -274,6 +274,44 @@ ul > li > ul > li {
   width: 60px;
 }
 
+.styled-select {
+   overflow: hidden;
+   width: 120px;
+   display: inline;
+   position: relative;
+   top: 3px;
+}
+
+.styled-select select {
+   background: transparent;
+   border: none;
+   font-size: 14px;
+   height: 36px;
+   padding: 5px;
+   width: 120px;
+}
+
+.styled-select.slate {
+   background-color: #2A303A;
+   height: 36px;
+   width: 120px;
+}
+
+.styled-select.slate select {
+   border: 2px solid #f4fc83;
+   font-size: 16px;
+   height: 36px;
+   width: 168px;
+}
+
+.slate{
+  background-color: #ddd;
+}
+
+.slate select {
+  color: #f4fc83;
+}
+
 .button-container {
   display: flex;
   justify-content: center;
