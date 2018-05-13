@@ -150,11 +150,9 @@ function displayDots(year){
        locations.forEach((info, index)=>{
          if(info.Title === data[j].Title || info.Title === data[j].Title.split(",")[0] || info.Title === data[j].Title.split(" - ")[0]) {
            console.log(info.Title, data[j].Title)
-           data[j].radius =+ x(locations[index].LocationsCount)
+           data[j].numberOfLocations =+ locations[index].LocationsCount;
+           data[j].radius =+ x(locations[index].LocationsCount);
          }
-         // else{
-         //   data[j].radius = 4
-         // }
        })
 
        data[j].x = Math.random() * widthBubbles;
@@ -201,7 +199,11 @@ function displayDots(year){
               tooltip.classed('hidden', false)
                 .attr('style', 'left:' + (mouse[0] + 380) + 'px; top:' + (mouse[1] + 250) + 'px')
                 .html("<p class=\"centerTip\"> <span class=\"bold\">Title:</span> "+ d.Title + "</p>" +
-                "<p class=\"centerTip\"><span class=\"bold\">Director:</span> " + d.Director + "</p>");
+                "<p class=\"centerTip\"><span class=\"bold\">Director:</span> " + d.Director + "</p>" +
+                "<p class=\"centerTip\"><span class=\"bold\">Production Company:</span> " + d.Production_Company + "</p>" +
+                "<p class=\"centerTip\"><span class=\"bold\">Distributor:</span> " + d.Distributor + "</p>" +
+                "<p class=\"centerTip\"><span class=\"bold\">Number of locations:</span> " + d.numberOfLocations + "</p>"
+              );
             };
           })
           .attr("r", function (d) { return d.radius; })

@@ -270,6 +270,8 @@ ul > li > ul > li {
   font-weight: bold;
   opacity: 1;
   position: relative;
+  word-break: break-all;
+  width: 60px;
 }
 
 .button-container {
