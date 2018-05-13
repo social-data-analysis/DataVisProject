@@ -342,7 +342,11 @@ var y = d3.scale.sqrt()
     .range([0, sunburstRadius]);
 
 // Define color range.
-var color = d3.scale.category20c();
+var color = d3.scale.ordinal()
+    .range(d3.range(33).map(d3.scale.linear()
+      .domain([0, 33 - 1])
+      .range(["#f4fc83", "#54daf2"])
+      .interpolate(d3.interpolateLab)));
 
 // Partition size.
 var partition = d3.layout.partition()
@@ -385,7 +389,9 @@ d3.json("sunburst.json", function(error, root) {
             .attr('style', 'left:' + (mouse[0] + 640) + 'px; top:' + (mouse[1] + 20) + 'px')
             .html("<p class=\"centerTip\">" + d.name + "</p>");
         };
-      });
+      })
+      .append("title")
+        .text(function(d) { return d.name + "\n" + formatNumber(d.value); });
 });
 
 // Zoom in when clicked.
