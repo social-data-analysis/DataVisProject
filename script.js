@@ -392,7 +392,7 @@ d3.json("sunburst.json", function(error, root) {
         });
         if (d.name) {
           sunburstTooltip.classed('hidden', false)
-            .attr('style', 'left:' + (mouse[0] + 640) + 'px; top:' + (mouse[1] + 20) + 'px')
+            .attr('style', 'left:' + (mouse[0] + 700) + 'px; top:' + (mouse[1] + 1350) + 'px')
             .html("<p class=\"centerTip\">" + d.name + "</p>");
         };
       });
