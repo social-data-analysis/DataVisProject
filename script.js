@@ -1,182 +1,4 @@
 //----------------------------------------------------------------------------------------------------------------------
-// HISTOGRAM
-//----------------------------------------------------------------------------------------------------------------------
-
-// Define SVG dimensions.
-var histogramWidth = 600,
-    histogramHeight = 200;
-
-var padding = 40;
-
-var parseDate = d3v4.timeParse("%Y");
-var formatDate = d3v4.timeFormat("%Y");
-
-var minDate = 2006,
-    maxDate = 2016;
-
-var tickValues = d3v4.range(12);
-
-var colors = ["#8C5B79", "#777DA3", "#49A1B4", "#41BFA4", "#88D57F", "#E2E062"]; 
-
-// Create SVG element
-var svgHistogram = d3v4.select(".histogram").append("svg")
-  .attr("width", histogramWidth)
-  .attr("height", histogramHeight);
-
-Date.prototype.addDays = function(days) {
-  var date = new Date(this.valueOf());
-  date.setDate(date.getDate() + days);
-  return date;
-}
-
-function getYear(startYear, endYear) {
-  var yearArray = new Array();
-  var currentYear = startYear;
-  while (currentYear <= endYear) {
-    yearArray.push(currentYear);
-    currentYear++;
-  }
-  return yearArray;
-}
-
-var nestedData; 
-
-d3v3.csv("./Film_Locations_in_San_Francisco_with_coordinates_many.csv", function(data) {
-  
-  var allYears = getYear(1915, 2018); // get all years between 1924-2018
-    
-  nestedData = d3v3.nest()
-    .key(function(d) {
-      return d['Release Year']
-    })
-    .entries(data);
-
-    console.log(nestedData);
-    
-    var nestedDataDates = nestedData.map(function (item) {
-      return item.key;
-    })
-    
-    // Add the years that are missing from the dataset and set their filming locations
-    allYears.map(function(year) {
-      if (!nestedDataDates.includes(year)) {
-        nestedData.push({
-        key: year,
-        values: []
-      })
-    }});
-  
-  createBins(nestedData);
-});
-
-function createBins(data) {
-
-  // Count up filming locations each year
-  var processedData = [];
-
-  data.map(function (item) {
-    processedData.push({
-      day: item.key,
-      locationsCount: item.values.length 
-    })
-  })
-  
-  createBarPlot(processedData);
-}
-
-function createBarPlot(data) {
-   
-  // Get max value for y scale
-  var maxHRange = Math.max.apply(Math, data.map(function(d) { return d.locationsCount; }))
-  
-  // Set the ranges
-  xScale = d3v4.scaleTime()
-    .domain([new Date(1924, 0, 1), new Date(2018, 0, 1)])
-    .rangeRound([padding, histogramWidth - padding]);
-
-  xAxis = d3v4.axisBottom()
-    .scale(xScale);
-
-  yScale = d3v4.scaleLinear()
-    .domain([0, maxHRange])
-    .range([histogramHeight - padding, padding]);
-
-var tickArray = [];
-for(var i = 0; i <= 290; i+=50)
-  tickArray.push(i);
-
-  yAxis = d3v4.axisLeft()
-    .scale(yScale)
-    .tickValues(tickArray)
-
-  createRectangles(data);
-}
-
-function createRectangles(data) { 
-  svgHistogram.selectAll("rect")
-    .data(data)
-    .enter()
-    .append("rect")
-    .attr("x", function(d) {
-      return xScale(parseDate(d.day));
-    })
-    .attr("y", function(d) {
-      return yScale(d.locationsCount);
-    })
-    .attr("width", 4)
-    .attr("height", function(d) {
-      return histogramHeight - padding - yScale(d.locationsCount);
-    })
-    .attr('fill', colors[2]);
-
-  svgHistogram.append("g")
-    .attr("class", "axisX")
-    .attr("transform", "translate(0," + (histogramHeight - padding) + ")")
-    .call(xAxis);
-
-  svgHistogram.append("g")
-    .attr("class", "axisY")
-    .attr("transform", "translate(" + padding + ",0)")
-    .call(yAxis);
-
-  svgHistogram.append("text")
-    .attr("transform", "translate(" + (histogramWidth / 2) + "," + (histogramHeight - 2) + ")")
-    .style("text-anchor", "middle")
-    .style("font-size", "14px")
-    .style("fill", "#eaeaea")
-    .text("Year");
-
-  svgHistogram.append("text")
-    .attr("transform", "rotate(-90)")
-    .attr("y", 0)
-    .attr("x", 0 - (histogramHeight / 2))
-    .attr("dy", "1em")
-    .style("text-anchor", "middle")
-    .style("fill", "#eaeaea")
-    .style("font-size", "14px")
-    .text("Nr of filming locations");
-
-  // Add brush
-  svgHistogram.append("g")
-    .attr("class", "brush")
-    .call(d3v4.brushX()
-      .extent([[padding, padding], [histogramWidth - padding, histogramHeight - padding]])
-      .on("start brush", brushed));
-  }
-
-function filterData(startDate, endDate) {
-  var startYear = formatDate(startDate);
-  var endYear = formatDate(endDate);
-  var remainingYears = [];
-  for (var i = parseInt(startYear); i <= endYear; i++) 
-    remainingYears.push(i);
-  return nestedData.filter(function (d) {
-    if (d.values.length > 0)
-      return remainingYears.includes(parseInt(d.key));
-  })
-}
-
-//----------------------------------------------------------------------------------------------------------------------
 // SF MAP
 //-----------------------------------------------------------------------------------------------------------------------
 
@@ -184,9 +6,6 @@ var width = 600,
     height = 600,
     centered;
 
-var map = d3v3.select("body").select(".map").append("svg")
-  .attr("width", width)
-  .attr("height", height);
 
 var tooltip = d3v3.select('body').append('div')
   .attr('class', 'hidden tooltip');
@@ -196,141 +15,146 @@ var g = map.append("g");
 var projection = d3v3.geo.mercator().scale(1).translate([0, 0]).precision(0);
 var path = d3v3.geo.path().projection(projection);
 
-d3v3.json("districtsOfSF.json", function(json) {
-  var bounds = path.bounds(json);
+changeYear('2005-2018');
 
-  xScaleMap = width / Math.abs(bounds[1][0] - bounds[0][0]);
-  yScale = height / Math.abs(bounds[1][1] - bounds[0][1]);
-  scale = xScaleMap < yScale ? xScaleMap : yScale;
+d3v3.select('#decades').on("change", function () {
+  var sect = document.getElementById("decades");
+	var section = sect.options[sect.selectedIndex].value;
+  changeYear(section);
+});
 
-  var transl = [(width - scale * (bounds[1][0] + bounds[0][0])) / 2, (height - scale * (bounds[1][1] + bounds[0][1])) / 2];
-  projection.scale(scale).translate(transl);
 
-  g.append("g")
-  .selectAll("path")
-      .data(json.features)
-      .enter()
-      .append("path")
-      .attr("d", path)
-      .style("fill", function(d, i) {
-        return "#1b222d"
+var datasource, from, to;
+var backUp=null;
+
+function changeYear(year){
+  displayDots(year)
+}
+
+var widthBubbles = 1100, heightBubbles = 500;
+var fill = d3v3.scale.ordinal().range(['#f4fc83'])
+
+var svgBubbles = d3v3.select(".chart").append("svg")
+   .attr("width", widthBubbles)
+   .attr("height", heightBubbles);
+
+function displayDots(year){
+  from = year.substr(0,year.indexOf('-'));
+  to = year.substr(year.indexOf('-')+1,year.length);
+
+  d3v3.csv('filmLocationsInSF.csv', function(data) {
+    d3v3.csv('location_count.csv', function(locations) {
+      // console.log(locations)
+      data = data.filter((d)=>{
+        return (d.Release_Year >= from && d.Release_Year <= to);
+      });
+
+      var aux = new Set();
+      var aux2 = []
+
+      data.map((movie, index)=>{
+        if ( !aux.has(movie.Title) ){
+          aux.add(movie.Title)
+          aux2.push(movie)
+        }
       })
-      .style("stroke", function(d, i) {
-        return "#313a47"
-      })
-      .style("position", "relative")
-      .style("z-index", 1)
-      .on("mouseover", function(d) {
-       d3v3.select(this)
-         .transition()
-         .duration(50)
-         .style("fill", "#091526");
-       })
-       .on("mouseout", function(d) {
-         tooltip.classed('hidden', true);
-         d3v3.select(this)
-           .transition()
-           .duration(50)
-           .style("fill", "#1b222d")
-       })
-       .on("mousemove", function(d) {
-         var mouse = d3v3.mouse(map.node()).map(function(d) {
-             return parseInt(d);
-         });
-         if (d.properties.name) {
-           tooltip.classed('hidden', false)
-             .attr('style', 'left:' + (mouse[0] + 640) + 'px; top:' + (mouse[1] + 20) + 'px')
-             .html("<p class=\"centerTip\">" + d.properties.name + "</p>");
-         };
-       })
-       .on("click", clicked);
 
+     data = aux2;
 
-   // //Create one label per borough
-   // map.selectAll("text")
-   //  .data(json.features)
-   //  .enter()
-   //  .append("text")
-   //  .attr("class", "label")
-   //  .attr("x", function(d) {
-   //    return path.centroid(d)[0] - 30;
-   //  })
-   //  .attr("y", function(d) {
-   //    return path.centroid(d)[1];
-   //  })
-   //  .style("z-index", 4)
-   //  .style("position", "relative")
-   //  .style("font-size", 10)
-   //  .text(function(d) {
-   //    if (d.properties.name) {
-   //      return d.properties.name;
-   //    };
-   //  });
+     var arrayOfLocationCounts = []
+     locations.forEach((location) => {
+       arrayOfLocationCounts.push(parseInt(location.LocationsCount))
+     })
 
-   var categorical = [
-     { "name" : "schemeAccent", "n": 8},
-     { "name" : "schemeDark2", "n": 8},
-     { "name" : "schemePastel2", "n": 8},
-     { "name" : "schemeSet2", "n": 8},
-     { "name" : "schemeSet1", "n": 9},
-     { "name" : "schemePastel1", "n": 9},
-     { "name" : "schemeCategory10", "n" : 10},
-     { "name" : "schemeSet3", "n" : 12 },
-     { "name" : "schemePaired", "n": 12},
-     { "name" : "schemeCategory20", "n" : 20 },
-     { "name" : "schemeCategory20b", "n" : 20},
-     { "name" : "schemeCategory20c", "n" : 20 }
-   ]
+     var x = d3v3.scale.linear()
+      .domain([d3v3.min(arrayOfLocationCounts), d3v3.max(arrayOfLocationCounts)])
+      .range([4, 15]);
 
-    d3v3.csv("./Film_Locations_in_San_Francisco_with_coordinates_many.csv", function(data) {
-
-      var width = 1200, height = 1000;
-      var fill = d3v3.scale.ordinal().range(['#f4fc83','#54daf2'])
-
-      var svg = d3v3.select(".chart").append("svg")
-         .attr("width", width)
-         .attr("height", height);
+    var test = {}
 
      for (var j = 0; j < data.length; j++) {
-       data[j].radius =+ 3;
-       data[j].x = Math.random() * width;
-       data[j].y = Math.random() * height;
+
+       locations.forEach((info, index)=>{
+         if(info.Title === data[j].Title || info.Title === data[j].Title.split(",")[0] || info.Title === data[j].Title.split(" - ")[0]) {
+           data[j].numberOfLocations =+ locations[index].LocationsCount;
+          //  console.log(info.Title, data[j].Title + ' index: ' + index + ' j: ' +j + ' radius :' +data[j].radius )
+
+           data[j].radius =+ x(locations[index].LocationsCount);
+          //  console.log(info.Title, data[j].Title + ' index: ' + index + ' j: ' +j + ' radius :' +data[j].radius )
+
+         }
+       })
+
+       data[j].x = Math.random() * widthBubbles;
+       data[j].y = Math.random() * heightBubbles;
      }
 
-     var padding = 2;
+     var padding = 5;
      var maxRadius = d3v3.max(_.pluck(data, 'radius'));
 
-     var getCenters = function (vname, size) {
+     var getCenters = function (vname) {
        var centers, map;
        centers = _.uniq(_.pluck(data, vname)).map(function (d) {
          return {name: d, value: 1};
        });
-      //  console.log(centers)
-       map = d3v3.layout.treemap().size([width, height]);
+       map = d3v3.layout.treemap().size([widthBubbles, heightBubbles / 1.2]);
        map.nodes({children: centers});
        return centers;
      };
 
-     var nodes = svg.selectAll("circle")
+     var nodes = svgBubbles.selectAll("circle")
           .data(data);
 
         nodes.enter().append("circle")
           .attr("class", "node")
           .attr("cx", function (d) { return d.x; })
           .attr("cy", function (d) { return d.y; })
+          .attr("id", function(d){return d.Title;})
+          .on("mouseout", function(d) {
+            tooltip.classed('hidden', true);
+            d3v3.select(this)
+              .transition()
+              .duration(50)
+              .style("fill", "#f4fc83")
+          })
+          .on("mousemove", function(d) {
+            d3v3.select(this)
+              .transition()
+              .duration(50)
+              .style("fill", "black")
+            var mouse = d3v3.mouse(map.node()).map(function(d) {
+                return parseInt(d);
+            });
+            if (d.Title) {
+              tooltip.classed('hidden', false)
+                .attr('style', 'left:' + (mouse[0] + 380) + 'px; top:' + (mouse[1] + 250) + 'px')
+                .html("<p class=\"centerTip\"> <span class=\"bold\">Title:</span> "+ d.Title + "</p>" +
+                "<p class=\"centerTip\"><span class=\"bold\">Director:</span> " + d.Director + "</p>" +
+                "<p class=\"centerTip\"><span class=\"bold\">Production Company:</span> " + d.Production_Company + "</p>" +
+                "<p class=\"centerTip\"><span class=\"bold\">Distributor:</span> " + d.Distributor + "</p>" +
+                "<p class=\"centerTip\"><span class=\"bold\">Number of locations:</span> " + d.numberOfLocations + "</p>"
+              );
+            };
+          })
           .attr("r", function (d) { return d.radius; })
           .style("fill", function (d) { return fill(d.Director); })
 
         var force = d3v3.layout.force();
 
-        draw('Production_Company');
+        draw('Distributor');
+
+        var buttons = ['Distributor', 'Production_Company', 'Director']
 
         $( ".btn" ).click(function() {
+          buttons.forEach((btn) => {
+            $("#" + btn).removeClass("mybtnActive")
+          })
+          $("#" + this.id).addClass("mybtnActive")
           draw(this.id);
         });
 
         function draw (varname) {
-          var centers = getCenters(varname, [800, 800]);
+          var centers = getCenters(varname);
           force.on("tick", tick(centers, varname));
           labels(centers)
           force.start();
@@ -354,18 +178,17 @@ d3v3.json("districtsOfSF.json", function(json) {
           }
         }
 
-        function labels (centers) {
-          svg.selectAll(".label").remove();
 
-          svg.selectAll(".label")
+        function labels (centers) {
+          svgBubbles.selectAll(".labelBubbleChart").remove();
+          svgBubbles.selectAll(".labelBubbleChart")
           .data(centers).enter().append("text")
-          .attr("class", "label")
+          .attr("class", "labelBubbleChart")
           .text(function (d) { return d.name })
           .attr("transform", function (d) {
-            return "translate(" + (d.x + (d.dx / 2)) + ", " + (d.y + 20) + ")";
+            return "translate(" + (d.x + (d.dx / 3)) + ", " + (d.y + 20) + ")";
           });
         }
-
 
         function collide(alpha) {
           var quadtree = d3v3.geom.quadtree(data);
@@ -393,29 +216,11 @@ d3v3.json("districtsOfSF.json", function(json) {
             });
           };
         }
-
-
-      g.selectAll("circle")
-        .data(data)
-        .enter()
-        .append("circle")
-        .attr("cx", function(d) {
-            var coords = d.Coordinates.split(" ");
-            return projection([coords[1], coords[0]])[0];
-        })
-        .attr("cy", function(d) {
-          var coords = d.Coordinates.split(" ");
-          return projection([coords[1], coords[0]])[1];
-        })
-        .attr("r", 2.5)
-        .attr("class", "non_brushed")
-        .style("fill", function(d, i) {
-          return "#f4fc83"
-        })
-        .style("z-index", 3)
-        .style("position", "absolute")
+        nodes.exit().remove()
     })
-})
+    })
+
+}
 
 
 function clicked(d) {
@@ -443,66 +248,92 @@ function clicked(d) {
       .style("stroke-width", 1.5 / k + "px");
 }
 
-
-function drawFilmingLocations(data) {
-  var filmingLocations = data.map(function(item) {
-    if (item.values.length > 0) return item.values;
-  });
-
-  // Flatten array
-  filmingLocations = [].concat.apply([], filmingLocations);
-
-  console.log(filmingLocations);
-
-  map.selectAll("circle")
-    .data(filmingLocations)
-    .enter()
-    .append("circle")
-    .attr("cx", function(d) {
-      if (d && d.Coordinates) {
-        var coords = d.Coordinates.split(" ");
-        return projection([coords[1], coords[0]])[0];
-      }
-    })
-    .attr("cy", function(d) {
-      if (d && d.Coordinates) {
-        var coords = d.Coordinates.split(" ");
-        return projection([coords[1], coords[0]])[1];
-      }
-    })
-    .attr("r", 2)
-    .attr("class", "brushed")
-    .style("z-index", 3)
-    .style("position", "absolute")
-}
-
 //----------------------------------------------------------------------------------------------------------------------
-// BRUSHING
+// SUNBURST
 //----------------------------------------------------------------------------------------------------------------------
 
-function brushed() {
-  if (d3v4.event.sourceEvent.type === "brush") return;
-  if (d3v4.event.selection) {
-    var d0 = d3v4.event.selection.map(xScale.invert),
-    d1 = d0.map(Math.round);
-    
-    // If empty when rounded, use floor instead.
-    if (d1[0] >= d1[1]) {
-      d1[0] = Math.floor(d0[0]);
-      d1[1] = d1[0] + 1;
-    }
-    
-    d3v4.select(this).call(d3v4.event.target.move, d1.map(xScale));
+// Define parameters.
+var sunburstWidth = 960,
+    sunburstHeight = 700,
+    sunburstRadius = (Math.min(sunburstWidth, sunburstHeight) / 2) - 10;
 
-    updateFilmingLocations(d0[0], d0[1]);
-  }
+// Add tooltip.
+var sunburstTooltip = d3v3.select('body').append('div')
+    .attr('class', 'hidden tooltip');
+
+// Number format.
+var formatNumber = d3v3.format(",d");
+
+// Define scales.
+var x = d3v3.scale.linear()
+    .range([0, 2 * Math.PI]);
+
+var y = d3v3.scale.sqrt()
+    .range([0, sunburstRadius]);
+
+// Define color range.
+var color = d3v3.scale.ordinal()
+    .range(d3v3.range(33).map(d3v3.scale.linear()
+      .domain([0, 33 - 1])
+      .range(["#f4fc83", "#54daf2"])
+      .interpolate(d3v3.interpolateLab)));
+
+// Partition size.
+var partition = d3v3.layout.partition()
+    .value(function(d) { return d.size; });
+
+// Create arc.
+var arc = d3v3.svg.arc()
+    .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
+    .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
+    .innerRadius(function(d) { return Math.max(0, y(d.y)); })
+    .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
+
+// Create new svg element.
+var sunburst = d3v3.select("body").select(".sunburst").append("svg")
+    .attr("width", sunburstWidth)
+    .attr("height", sunburstHeight)
+  .append("g")
+    .attr("transform", "translate(" + sunburstWidth / 2 + "," + (sunburstHeight / 2) + ")");
+
+// Read JSON.
+d3v3.json("sunburst.json", function(error, root) {
+  if (error) throw error;
+
+  // Add paths and tooltips.
+  sunburst.selectAll("path")
+      .data(partition.nodes(root))
+    .enter().append("path")
+      .attr("d", arc)
+      .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
+      .on("click", click)
+      .on("mouseout", function(d) {
+        sunburstTooltip.classed('hidden', true);
+      })
+      .on("mousemove", function(d) {
+        var mouse = d3v3.mouse(sunburst.node()).map(function(d) {
+            return parseInt(d);
+        });
+        if (d.name) {
+          sunburstTooltip.classed('hidden', false)
+            .attr('style', 'left:' + (mouse[0] + 750) + 'px; top:' + (mouse[1] + 1350) + 'px')
+            .html("<p class=\"centerTip\">" + d.name + "</p>");
+        };
+      });
+});
+
+// Zoom in when clicked.
+function click(d) {
+  sunburst.transition()
+      .duration(750)
+      .tween("scale", function() {
+        var xd = d3v3.interpolate(x.domain(), [d.x, d.x + d.dx]),
+            yd = d3v3.interpolate(y.domain(), [d.y, 1]),
+            yr = d3v3.interpolate(y.range(), [d.y ? 20 : 0, sunburstRadius]);
+        return function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); };
+      })
+    .selectAll("path")
+      .attrTween("d", function(d) { return function() { return arc(d); }; });
 }
 
-function updateFilmingLocations(startDate, endDate) {
-  var filteredData = filterData(startDate, endDate);
-
-  map.selectAll("circle")
-    .remove();
-
-  drawFilmingLocations(filteredData);
-}
+d3v3.select(self.frameElement).style("height", sunburstHeight + "px");

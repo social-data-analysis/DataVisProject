@@ -1,7 +1,7 @@
 <html>
 <head>
   <link rel="stylesheet" href="./style.css" />
-  <link rel="stylesheet" href="./navigationBar.css" />
+  <link rel="stylesheet" href="./navigationBar/navigationBar.css" />
   <link href="https://fonts.googleapis.com/css?family=Carrois+Gothic+SC" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -10,12 +10,12 @@
   <nav class="cd-vertical-nav">
       <ul>
         <li><a href="#section1" class="active"><span class="label">Map</span></a></li>
-        <li><a href="#section2"><span class="label">Events</span></a></li>
-        <li><a href="#section3"><span class="label">Help</span></a></li>
-        <li><a href="#section4"><span class="label">Share</span></a></li>
+        <li><a href="#section2"><span class="label">Sunburst</span></a></li>
+        <li><a href="#section3"><span class="label">Bubbles</span></a></li>
+        <li><a href="#section4"><span class="label">Help</span></a></li>
       </ul>
     </nav><!-- .cd-vertical-nav -->
-        
+
     <section id="section1" class="cd-section">
       <div class="content-wrapper">
           <div class="header">
@@ -39,41 +39,60 @@
           </div>
       </div>
     </section><!-- cd-section -->
-    
+
     <section id="section2" class="cd-section">
       <div class="content-wrapper">
+          <h1 class="subtitle">Distributors, production companies and movies</h1>
+          <p>The sunburst charts below shows the hierarchy of distributors, production companies and movies.</p>
+          <p>The chart is interactive, you can click on the elements.</p>
+         <div class="sunburst"></div>
+      </div>
+    </section><!-- cd-section -->
+
+    <section id="section3" class="cd-section">
+      <div class="content-wrapper">
           <h1 class="subtitle">Distributors, production companies and directors</h1>
-          <p>The bubble charts below show the most common distributors, production companies and directors.</p>
+          <p>The bubble charts below shows the most common distributors, production companies and directors.
+          It is possible to select data for different timestamps by choosing it in options.</p>
          <div class="row">
-          <div class="btn-group myButtons" data-toggle="buttons">
-            <label class="btn mybtn active" id="Distributor">
-              <input type="radio" name="options"> Distributor
-            </label>
-            <label class="btn mybtn" id="Production_Company">
-              <input type="radio" name="options"> Production_Company
-            </label>
-            <label class="btn mybtn" id="Director">
-              <input type="radio" name="options"> Director
-            </label>
+          <div class="controls">
+            <div class="btn-group myButtons" data-toggle="buttons">
+              <label class="btn mybtn mybtnActive" id="Distributor">
+                <input type="radio" name="options"> Distributor
+              </label>
+              <label class="btn mybtn" id="Production_Company">
+                <input type="radio" name="options"> Production_Company
+              </label>
+              <label class="btn mybtn" id="Director">
+                <input type="radio" name="options"> Director
+              </label>
+            </div>
+            <div class="styled-select slate">
+            <select id="decades">
+                <option value="1915-1925">1924-1945</option>
+                <option value="1945-1955">1945-1965</option>
+                <option value="1965-1975">1965-1985</option>
+                <option value="1985-1995">1985-2005</option>
+                <option value="2005-2018" selected="selected">2005-2018</option>
+            </select>
+          </div>
+          </div>
+
+          <div class="bubblesLegend">
+
           </div>
         <div class="chart col-md-12"></div>
     </div>
       </div>
     </section><!-- cd-section -->
-    
-    <section id="section3" class="cd-section">
+
+    <section id="section4" class="cd-section">
       <div class="content-wrapper">
         <h2>Help</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto numquam, totam iusto officia earum perferendis, culpa ad atque eveniet praesentium nobis expedita similique beatae tenetur. Distinctio vel tenetur, id cum.</p>
       </div>
     </section><!-- cd-section -->
-    
-    <section id="section4" class="cd-section">
-      <div class="content-wrapper">
-        <h2>Share</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto numquam, totam iusto officia earum perferendis, culpa ad atque eveniet praesentium nobis expedita similique beatae tenetur. Distinctio vel tenetur, id cum.</p>
-      </div>
-    </section><!-- cd-section -->
+
   <script src="https://d3js.org/d3.v3.min.js"></script>
   <script>
     d3v3 = d3
@@ -85,9 +104,11 @@
       window.d3 = null
   </script>
   <script src="lib/jquery.js"></script>
+  <!-- <script src="https://d3js.org/d3-scale-chromatic.v0.3.min.js"></script> -->
   <script src="lib/modernizr.js"></script>
   <script src="lib/underscore.js"></script>
+  <script src="./scripts/mapWithTimeline.js"></script>
   <script src="./script.js"></script>
-  <script src="./navigationBar.js"></script> <!-- Resource jQuery -->
+  <script src="./navigationBar/navigationBar.js"></script> <!-- Resource jQuery -->
 </body>
 </html>

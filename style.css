@@ -12,7 +12,7 @@ html, body {
   padding: 0;
   margin: 0;
   font-weight: 300;
-  background-color: #313a47 !important;
+  background-color: #2A303A !important;
 }
 
 .container {
@@ -35,6 +35,9 @@ html, body {
   }
 }
 
+#section2 {
+  margin-bottom: 100px;
+}
 
 .mybtn {
   border: 2px solid #f4fc83 !important;
@@ -43,9 +46,32 @@ html, body {
   margin: 5px;
 }
 
+.mybtn:hover {
+  color: #f4fc83 !important;
+}
+
+.mybtnActive:hover {
+  color: #313a47 !important;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.mybtnActive {
+  border: 2px solid #f4fc83 !important;
+  background-color: #f4fc83;
+  color: #313a47;
+  margin: 5px;
+}
+
 .myButtons {
   margin: 0 auto !important;
   text-align: center;
+}
+
+.controls {
+  margin: 50px;
 }
 
 a {
@@ -74,7 +100,7 @@ body {
   display: flex;
   font-size: 1em;
   font-weight: 700;
-  height: 76px;
+  height: 50px;
   justify-content: space-between;
   position: fixed;
   width: 100%;
@@ -239,11 +265,52 @@ ul > li > ul > li {
   width: 600px;
 }
 
-.label {
-  fill: white;
+.labelBubbleChart {
+  fill: #eaeaea;
   font-weight: bold;
+  font-size: 75%;
   opacity: 1;
   position: relative;
+  word-break: break-all;
+  width: 60px;
+}
+
+.styled-select {
+   overflow: hidden;
+   width: 120px;
+   display: inline;
+   position: relative;
+   top: 3px;
+}
+
+.styled-select select {
+   background: transparent;
+   border: none;
+   font-size: 14px;
+   height: 36px;
+   padding: 5px;
+   width: 120px;
+}
+
+.styled-select.slate {
+   background-color: #2A303A;
+   height: 36px;
+   width: 120px;
+}
+
+.styled-select.slate select {
+   border: 2px solid #f4fc83;
+   font-size: 16px;
+   height: 36px;
+   width: 168px;
+}
+
+.slate{
+  background-color: #ddd;
+}
+
+.slate select {
+  color: #f4fc83;
 }
 
 .button-container {
@@ -321,4 +388,8 @@ ul > li > ul > li {
 .histogram {
   display: flex;
   align-items: center;
+}
+
+path {
+  stroke: #313a47;
 }
