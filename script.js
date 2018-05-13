@@ -316,41 +316,51 @@ function clicked(d) {
 // SUNBURST
 //----------------------------------------------------------------------------------------------------------------------
 
+// Define parameters.
 var sunburstWidth = 960,
     sunburstHeight = 700,
     sunburstRadius = (Math.min(sunburstWidth, sunburstHeight) / 2) - 10;
 
+// Add tooltip.
 var sunburstTooltip = d3.select('body').append('div')
     .attr('class', 'hidden tooltip');
 
+// Number format.
 var formatNumber = d3.format(",d");
 
+// Define scales.
 var x = d3.scale.linear()
     .range([0, 2 * Math.PI]);
 
 var y = d3.scale.sqrt()
     .range([0, sunburstRadius]);
 
+// Define color range.
 var color = d3.scale.category20c();
 
+// Partition size.
 var partition = d3.layout.partition()
     .value(function(d) { return d.size; });
 
+// Create arc.
 var arc = d3.svg.arc()
     .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
     .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
     .innerRadius(function(d) { return Math.max(0, y(d.y)); })
     .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
 
+// Create new svg element.
 var sunburst = d3.select("body").select(".sunburst").append("svg")
     .attr("width", sunburstWidth)
     .attr("height", sunburstHeight)
   .append("g")
     .attr("transform", "translate(" + sunburstWidth / 2 + "," + (sunburstHeight / 2) + ")");
 
+// Read JSON.
 d3.json("sunburst.json", function(error, root) {
   if (error) throw error;
 
+  // Add paths and tooltips.
   sunburst.selectAll("path")
       .data(partition.nodes(root))
     .enter().append("path")
@@ -372,6 +382,7 @@ d3.json("sunburst.json", function(error, root) {
       });
 });
 
+// Zoom in when clicked.
 function click(d) {
   sunburst.transition()
       .duration(750)
