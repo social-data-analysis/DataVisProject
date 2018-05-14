@@ -26,7 +26,6 @@ html, body {
 
 .icons {
   margin-right: 40px;
-  /* display: inline-block; */
 }
 
 .icon {
@@ -126,7 +125,6 @@ body {
 }
 
 .content {
-  /* flex: auto; */
   display: block;
 }
 
@@ -202,7 +200,6 @@ body {
 }
 
 .container {
-  /* display: flex; */
   margin: 0;
 }
 
@@ -390,8 +387,6 @@ ul > li > ul > li {
 
 .charts {
   align-items: center;
-  /* display: flex; */
-  /* flex-direction: column; */
 }
 
 .histogram {
@@ -407,7 +402,6 @@ path {
   background: white;
   color: black;
   margin: 0 100px 50px 100px;
-  /* text-align: left; */
 }
 
 .text-container {
@@ -426,4 +420,10 @@ path {
 
 .section p {
   font-weight: 500;
+}
+
+.statsList {
+  margin: 0;
+  font-size: 16px;
+  list-style-type: circle;
 }
