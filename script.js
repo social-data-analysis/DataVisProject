@@ -65,13 +65,19 @@ var legend = svgLegend.selectAll('.legend')
     return "translate(" + (newdataL + offset) + ",30)"
    })
 
-legend.append('text')
-   .attr("x", 0)
-   .attr("y", 50)
+svgLegend.append('text')
+   .attr("x", 10)
+   .attr("y", 35)
    .text("1")
-   .attr("class", "textselected")
-   .style("text-anchor", "start")
-   .style("font-size", 10)
+   .style("font-family", "Nunito")
+   .style("font-size", 14)
+
+svgLegend.append('text')
+  .attr("x", 430)
+  .attr("y", 35)
+  .text("122")
+  .style("font-family", "Nunito")
+  .style("font-size", 14)
 
 function displayDots(year){
   from = year.substr(0,year.indexOf('-'));
@@ -108,6 +114,8 @@ function displayDots(year){
      var x = d3v3.scale.linear()
       .domain([d3v3.min(arrayOfLocationCounts), d3v3.max(arrayOfLocationCounts)])
       .range([4, 13]);
+
+     console.log(d3v3.min(arrayOfLocationCounts), d3v3.max(arrayOfLocationCounts))
 
      //Process the data
      for (var j = 0; j < data.length; j++) {
