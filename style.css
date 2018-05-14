@@ -41,7 +41,7 @@ html, body {
 
 .mybtn {
   border: 2px solid #f4fc83 !important;
-  background-color: #313a47;
+  background-color: #2A303A;
   color: #f4fc83;
   margin: 5px;
 }
@@ -71,7 +71,7 @@ html, body {
 }
 
 .controls {
-  margin: 50px;
+  margin: 30px 0px 40px 0px;
 }
 
 a {
@@ -132,7 +132,7 @@ body {
 }
 
 .subtitle {
-  font-family: 'Comfortaa', cursive;
+  font-family: 'PT Serif', serif !important;
   font-size: 32px;
   color: #f4fc83;
   /* margin: 50px 0 30px 0; */
@@ -264,13 +264,18 @@ ul > li > ul > li {
 }
 
 .labelBubbleChart {
-  fill: #eaeaea;
-  font-weight: bold;
+  fill: #eaeaea !important;
+  font-weight: normal;
   font-size: 75%;
   opacity: 1;
   position: relative;
-  word-break: break-all;
-  width: 60px;
+  max-width: 100px !important;
+  word-wrap: break-word !important;
+}
+
+.legend {
+  margin: 0 auto;
+  text-align: center;
 }
 
 .styled-select {
@@ -293,7 +298,7 @@ ul > li > ul > li {
 .styled-select.slate {
    background-color: #2A303A;
    height: 36px;
-   width: 120px;
+   width: 140px;
 }
 
 .styled-select.slate select {
@@ -366,7 +371,7 @@ ul > li > ul > li {
 
 .axisY text{
   fill: #eaeaea;
-}  
+}
 
 @media screen and (min-width: 1100px) {
   .charts {

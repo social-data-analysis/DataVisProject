@@ -15,8 +15,10 @@ var g = map.append("g");
 var projection = d3v3.geo.mercator().scale(1).translate([0, 0]).precision(0);
 var path = d3v3.geo.path().projection(projection);
 
+//First, display the latest dataset
 changeYear('2005-2018');
 
+//On choosing different timeframe from options
 d3v3.select('#decades').on("change", function () {
   var sect = document.getElementById("decades");
 	var section = sect.options[sect.selectedIndex].value;
@@ -27,16 +29,55 @@ d3v3.select('#decades').on("change", function () {
 var datasource, from, to;
 var backUp=null;
 
+//When changing year display new dots
 function changeYear(year){
   displayDots(year)
 }
 
-var widthBubbles = 1100, heightBubbles = 500;
+var widthBubbles = 1200, heightBubbles = 400, heightLegend = 100, widthLegend = 500, dataL = 0, offset = 40;
 var fill = d3v3.scale.ordinal().range(['#f4fc83'])
 
 var svgBubbles = d3v3.select(".chart").append("svg")
    .attr("width", widthBubbles)
    .attr("height", heightBubbles);
+
+var svgLegend = d3v3.select(".legend").append("svg")
+   .attr("width", widthLegend)
+   .attr("height", heightLegend)
+
+var legendVals = []
+//To show all possible sizes of bubbles in a graphics
+for (var i = 4; i < 14; i++) {
+ legendVals.push(i)
+}
+
+//Legend displaying sizes of bubbles
+var legend = svgLegend.selectAll('.legend')
+   .data(legendVals)
+   .enter().append('circle')
+   .attr("class", "legendCircle")
+   .attr("r", function (d) { return d; })
+   .attr("cy", 0)
+   .attr("cx", 0)
+   .attr("transform", function (d, i) {
+    var newdataL = dataL
+    dataL += offset
+    return "translate(" + (newdataL + offset) + ",30)"
+   })
+
+svgLegend.append('text')
+   .attr("x", 10)
+   .attr("y", 35)
+   .text("1")
+   .style("font-family", "Nunito")
+   .style("font-size", 14)
+
+svgLegend.append('text')
+  .attr("x", 430)
+  .attr("y", 35)
+  .text("122")
+  .style("font-family", "Nunito")
+  .style("font-size", 14)
 
 function displayDots(year){
   from = year.substr(0,year.indexOf('-'));
@@ -44,11 +85,13 @@ function displayDots(year){
 
   d3v3.csv('filmLocationsInSF.csv', function(data) {
     d3v3.csv('location_count.csv', function(locations) {
-      // console.log(locations)
+
+      //Filter the data according to the chosen timeframe
       data = data.filter((d)=>{
         return (d.Release_Year >= from && d.Release_Year <= to);
       });
 
+      //Create set to keep only unique rows
       var aux = new Set();
       var aux2 = []
 
@@ -59,6 +102,7 @@ function displayDots(year){
         }
       })
 
+     //Here is the data containing unique films to present them in bubble graphics
      data = aux2;
 
      var arrayOfLocationCounts = []
@@ -66,25 +110,21 @@ function displayDots(year){
        arrayOfLocationCounts.push(parseInt(location.LocationsCount))
      })
 
+     //Map location counts into values between 4 and 15 (size of the bubbles)
      var x = d3v3.scale.linear()
       .domain([d3v3.min(arrayOfLocationCounts), d3v3.max(arrayOfLocationCounts)])
-      .range([4, 15]);
+      .range([4, 13]);
 
-    var test = {}
+     console.log(d3v3.min(arrayOfLocationCounts), d3v3.max(arrayOfLocationCounts))
 
+     //Process the data
      for (var j = 0; j < data.length; j++) {
-
        locations.forEach((info, index)=>{
          if(info.Title === data[j].Title || info.Title === data[j].Title.split(",")[0] || info.Title === data[j].Title.split(" - ")[0]) {
            data[j].numberOfLocations =+ locations[index].LocationsCount;
-          //  console.log(info.Title, data[j].Title + ' index: ' + index + ' j: ' +j + ' radius :' +data[j].radius )
-
            data[j].radius =+ x(locations[index].LocationsCount);
-          //  console.log(info.Title, data[j].Title + ' index: ' + index + ' j: ' +j + ' radius :' +data[j].radius )
-
          }
        })
-
        data[j].x = Math.random() * widthBubbles;
        data[j].y = Math.random() * heightBubbles;
      }
@@ -97,7 +137,7 @@ function displayDots(year){
        centers = _.uniq(_.pluck(data, vname)).map(function (d) {
          return {name: d, value: 1};
        });
-       map = d3v3.layout.treemap().size([widthBubbles, heightBubbles / 1.2]);
+       map = d3v3.layout.treemap().size([widthBubbles, heightBubbles]);
        map.nodes({children: centers});
        return centers;
      };
@@ -121,8 +161,8 @@ function displayDots(year){
             d3v3.select(this)
               .transition()
               .duration(50)
-              .style("fill", "black")
-            var mouse = d3v3.mouse(map.node()).map(function(d) {
+              .style("fill", "#54daf2")
+            var mouse = d3.mouse(map.node()).map(function(d) {
                 return parseInt(d);
             });
             if (d.Title) {
@@ -141,7 +181,7 @@ function displayDots(year){
 
         var force = d3v3.layout.force();
 
-        draw('Distributor');
+        draw('Director');
 
         var buttons = ['Distributor', 'Production_Company', 'Director']
 
@@ -184,9 +224,34 @@ function displayDots(year){
           svgBubbles.selectAll(".labelBubbleChart")
           .data(centers).enter().append("text")
           .attr("class", "labelBubbleChart")
-          .text(function (d) { return d.name })
+          .text(function (d) {
+            if (d.name === "Twentieth Century Fox Film Corporation") {
+              return "Twentieth Century Fox"
+            }
+            if (d.name === "American Broadcasting Company (ABC)") {
+              return "ABC"
+            }
+            if (d.name === "Walt Disney Studios Motion Pictures") {
+              return "Walt Disney Studios"
+            }
+            if (d.name === "Jamie Babbit, Amanda Brotchie, Steven K. Tsuchida, Christian Ditter, John Riggi") {
+              return "Jamie Babbit"
+            }
+            if (d.name === "Alexandra Cunningham and Kem Nunn") {
+              return "Alexandra Cunningham"
+            }
+            if (d.name === "Peter Elkoff and Victoria Morrow") {
+              return "Peter Elkoff"
+            }
+            if (d.name === "Sony Pictures Classics") {
+              return "Sony Pictures"
+            }
+            else {
+              return d.name
+            }
+          })
           .attr("transform", function (d) {
-            return "translate(" + (d.x + (d.dx / 3)) + ", " + (d.y + 20) + ")";
+            return "translate(" + (d.x + (d.dx / 5)) + ", " + (d.y + 20) + ")";
           });
         }
 
@@ -253,8 +318,8 @@ function clicked(d) {
 //----------------------------------------------------------------------------------------------------------------------
 
 // Define parameters.
-var sunburstWidth = 960,
-    sunburstHeight = 700,
+var sunburstWidth = 760,
+    sunburstHeight = 500,
     sunburstRadius = (Math.min(sunburstWidth, sunburstHeight) / 2) - 10;
 
 // Add tooltip.

@@ -30,7 +30,7 @@
             </div>
           <div class="text">
                 <h1 class="subtitle">Movie locations in San Francisco</h1>
-                <!-- <p>If you love movies, and you love San Francisco, you're bound to love this -- we are going to discover meaningful patterns related to the movies that were shot in 
+                <!-- <p>If you love movies, and you love San Francisco, you're bound to love this -- we are going to discover meaningful patterns related to the movies that were shot in
                   San Francisco starting from 1924.</p> -->
           </div>
           <div class="charts">
@@ -51,20 +51,21 @@
 
     <section id="section3" class="cd-section">
       <div class="content-wrapper">
-          <h1 class="subtitle">Distributors, production companies and directors</h1>
-          <p>The bubble charts below shows the most common distributors, production companies and directors.
-          It is possible to select data for different timestamps by choosing it in options.</p>
+          <h1 class="subtitle">Directors, distributors and production companies.</h1>
+          <p>The bubbles show movies, grouped by either directors, distributors or production companies.
+            It is possible to select different timestamps by choosing it in options.
+          </p>
          <div class="row">
           <div class="controls">
             <div class="btn-group myButtons" data-toggle="buttons">
-              <label class="btn mybtn mybtnActive" id="Distributor">
+              <label class="btn mybtn mybtnActive" id="Director">
+                <input type="radio" name="options"> Director
+              </label>
+              <label class="btn mybtn" id="Distributor">
                 <input type="radio" name="options"> Distributor
               </label>
               <label class="btn mybtn" id="Production_Company">
                 <input type="radio" name="options"> Production_Company
-              </label>
-              <label class="btn mybtn" id="Director">
-                <input type="radio" name="options"> Director
               </label>
             </div>
             <div class="styled-select slate">
@@ -75,10 +76,10 @@
                 <option value="1985-1995">1985-2005</option>
                 <option value="2005-2018" selected="selected">2005-2018</option>
             </select>
+            </div>
           </div>
-          </div>
-
-          <div class="bubblesLegend">
+          <p>Size of each bubble indicates the number of locations the film was set in.</p>
+          <div class="legend">
 
           </div>
         <div class="chart col-md-12"></div>
