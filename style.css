@@ -132,7 +132,7 @@ body {
 }
 
 .subtitle {
-  font-family: 'Comfortaa', cursive;
+  font-family: 'PT Serif', serif !important;
   font-size: 32px;
   color: #f4fc83;
   /* margin: 50px 0 30px 0; */

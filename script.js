@@ -34,16 +34,44 @@ function changeYear(year){
   displayDots(year)
 }
 
-var widthBubbles = 1100, heightBubbles = 500, heightLegend = 100, widthLegend = 500, dataL = 0, offset = 40;
+var widthBubbles = 1200, heightBubbles = 400, heightLegend = 100, widthLegend = 500, dataL = 0, offset = 40;
 var fill = d3v3.scale.ordinal().range(['#f4fc83'])
 
 var svgBubbles = d3v3.select(".chart").append("svg")
    .attr("width", widthBubbles)
    .attr("height", heightBubbles);
 
-var svgLegned = d3v3.select(".legend").append("svg")
+var svgLegend = d3v3.select(".legend").append("svg")
    .attr("width", widthLegend)
    .attr("height", heightLegend)
+
+var legendVals = []
+//To show all possible sizes of bubbles in a graphics
+for (var i = 4; i < 14; i++) {
+ legendVals.push(i)
+}
+
+//Legend displaying sizes of bubbles
+var legend = svgLegend.selectAll('.legend')
+   .data(legendVals)
+   .enter().append('circle')
+   .attr("class", "legendCircle")
+   .attr("r", function (d) { return d; })
+   .attr("cy", 0)
+   .attr("cx", 0)
+   .attr("transform", function (d, i) {
+    var newdataL = dataL
+    dataL += offset
+    return "translate(" + (newdataL + offset) + ",30)"
+   })
+
+legend.append('text')
+   .attr("x", 0)
+   .attr("y", 50)
+   .text("1")
+   .attr("class", "textselected")
+   .style("text-anchor", "start")
+   .style("font-size", 10)
 
 function displayDots(year){
   from = year.substr(0,year.indexOf('-'));
@@ -79,7 +107,7 @@ function displayDots(year){
      //Map location counts into values between 4 and 15 (size of the bubbles)
      var x = d3v3.scale.linear()
       .domain([d3v3.min(arrayOfLocationCounts), d3v3.max(arrayOfLocationCounts)])
-      .range([4, 15]);
+      .range([4, 13]);
 
      //Process the data
      for (var j = 0; j < data.length; j++) {
@@ -95,43 +123,13 @@ function displayDots(year){
 
      var padding = 5;
      var maxRadius = d3v3.max(_.pluck(data, 'radius'));
-     var legendVals = []
-
-     //To show all possible sizes of bubbles in a graphics
-     for (var i = 4; i < 16; i++) {
-       legendVals.push(i)
-     }
-
-     //Legend displaying sizes of bubbles
-     var legend = svgLegned.selectAll('.legend')
-        .data(legendVals)
-        .enter().append('circle')
-        .attr("class", "legendCircle")
-        .attr("r", function (d) { return d; })
-        .attr("cy", 0)
-        .attr("cx", 0)
-        .attr("transform", function (d, i) {
-         var newdataL = dataL
-         dataL += offset
-         return "translate(" + (newdataL + offset) + ",30)"
-        })
-
-    legend.append('text')
-        .attr("x", 0)
-        .attr("y", 50)
-        .text("1")
-        .attr("class", "textselected")
-        .style("text-anchor", "start")
-        .style("font-size", 10)
-
-
 
      var getCenters = function (vname) {
        var centers, map;
        centers = _.uniq(_.pluck(data, vname)).map(function (d) {
          return {name: d, value: 1};
        });
-       map = d3v3.layout.treemap().size([widthBubbles, heightBubbles / 1.2]);
+       map = d3v3.layout.treemap().size([widthBubbles, heightBubbles]);
        map.nodes({children: centers});
        return centers;
      };
@@ -175,7 +173,7 @@ function displayDots(year){
 
         var force = d3v3.layout.force();
 
-        draw('Distributor');
+        draw('Director');
 
         var buttons = ['Distributor', 'Production_Company', 'Director']
 
@@ -218,7 +216,32 @@ function displayDots(year){
           svgBubbles.selectAll(".labelBubbleChart")
           .data(centers).enter().append("text")
           .attr("class", "labelBubbleChart")
-          .text(function (d) { return d.name })
+          .text(function (d) {
+            if (d.name === "Twentieth Century Fox Film Corporation") {
+              return "Twentieth Century Fox"
+            }
+            if (d.name === "American Broadcasting Company (ABC)") {
+              return "ABC"
+            }
+            if (d.name === "Walt Disney Studios Motion Pictures") {
+              return "Walt Disney Studios"
+            }
+            if (d.name === "Jamie Babbit, Amanda Brotchie, Steven K. Tsuchida, Christian Ditter, John Riggi") {
+              return "Jamie Babbit"
+            }
+            if (d.name === "Alexandra Cunningham and Kem Nunn") {
+              return "Alexandra Cunningham"
+            }
+            if (d.name === "Peter Elkoff and Victoria Morrow") {
+              return "Peter Elkoff"
+            }
+            if (d.name === "Sony Pictures Classics") {
+              return "Sony Pictures"
+            }
+            else {
+              return d.name
+            }
+          })
           .attr("transform", function (d) {
             return "translate(" + (d.x + (d.dx / 5)) + ", " + (d.y + 20) + ")";
           });
