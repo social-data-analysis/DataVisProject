@@ -164,12 +164,12 @@ function displayDots(year){
               .transition()
               .duration(50)
               .style("fill", "#54daf2")
-            var mouse = d3.mouse(map.node()).map(function(d) {
+            var mouse = d3v3.mouse(map.node()).map(function(d) {
                 return parseInt(d);
             });
             if (d.Title) {
               tooltip.classed('hidden', false)
-                .attr('style', 'left:' + (mouse[0] + 380) + 'px; top:' + (mouse[1] + 250) + 'px')
+                .attr('style', 'left:' + (mouse[0] + 610) + 'px; top:' + (mouse[1] + 210) + 'px')
                 .html("<p class=\"centerTip\"> <span class=\"bold\">Title:</span> "+ d.Title + "</p>" +
                 "<p class=\"centerTip\"><span class=\"bold\">Director:</span> " + d.Director + "</p>" +
                 "<p class=\"centerTip\"><span class=\"bold\">Production Company:</span> " + d.Production_Company + "</p>" +
