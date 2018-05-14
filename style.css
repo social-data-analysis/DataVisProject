@@ -71,7 +71,7 @@ html, body {
 }
 
 .controls {
-  margin: 30px 0px 50px 0px;
+  margin: 30px 0px 40px 0px;
 }
 
 a {
@@ -265,14 +265,19 @@ ul > li > ul > li {
   width: 600px;
 }
 
-.myLabel {
-  fill: rgba(234, 242, 227, 0.6);
-  font-size: 10px;
+.labelBubbleChart {
+  fill: #eaeaea !important;
   font-weight: normal;
+  font-size: 75%;
   opacity: 1;
   position: relative;
   max-width: 100px !important;
   word-wrap: break-word !important;
+}
+
+.legend {
+  margin: 0 auto;
+  text-align: center;
 }
 
 .styled-select {
@@ -344,6 +349,50 @@ ul > li > ul > li {
 .cd-section .content-wrapper {
   display: flex;
   flex-direction: column;
+}
+
+.axisX line{
+  stroke: #eaeaea;
+}
+
+.axisX path{
+  stroke: #eaeaea;
+}
+
+.axisX text{
+  fill: #eaeaea;
+}
+
+.axisY line{
+  stroke: #eaeaea;
+}
+
+.axisY path{
+  stroke: #eaeaea;
+}
+
+.axisY text{
+  fill: #eaeaea;
+}
+
+@media screen and (min-width: 1100px) {
+  .charts {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 80px;
+  }
+}
+
+.charts {
+  align-items: center;
+  /* display: flex; */
+  /* flex-direction: column; */
+}
+
+.histogram {
+  display: flex;
+  align-items: center;
 }
 
 path {

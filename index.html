@@ -1,7 +1,7 @@
 <html>
 <head>
   <link rel="stylesheet" href="./style.css" />
-  <link rel="stylesheet" href="./navigationBar.css" />
+  <link rel="stylesheet" href="./navigationBar/navigationBar.css" />
   <link href="https://fonts.googleapis.com/css?family=Carrois+Gothic+SC" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -30,10 +30,13 @@
             </div>
           <div class="text">
                 <h1 class="subtitle">Movie locations in San Francisco</h1>
-                <p>The map shows movie locations in San Francisco between 1900 - 1900</p>
-                <div class="histogram"></div>
+                <!-- <p>If you love movies, and you love San Francisco, you're bound to love this -- we are going to discover meaningful patterns related to the movies that were shot in
+                  San Francisco starting from 1924.</p> -->
+          </div>
+          <div class="charts">
+              <div class="histogram"></div>
               <div class="map"></div>
-            </div>
+          </div>
       </div>
     </section><!-- cd-section -->
 
@@ -72,10 +75,10 @@
                 <option value="1985-1995">1985-2005</option>
                 <option value="2005-2018" selected="selected">2005-2018</option>
             </select>
+            </div>
           </div>
-          </div>
-
-          <div class="bubblesLegend">
+          <p>Size of each bubble indicates the number of locations the film was set in.</p>
+          <div class="legend">
 
           </div>
         <div class="chart col-md-12"></div>
@@ -91,11 +94,21 @@
     </section><!-- cd-section -->
 
   <script src="https://d3js.org/d3.v3.min.js"></script>
-  <script src="https://d3js.org/d3-scale-chromatic.v0.3.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script>
+    d3v3 = d3
+    window.d3 = null
+  </script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script>
+      d3v4 = d3
+      window.d3 = null
+  </script>
+  <script src="lib/jquery.js"></script>
+  <!-- <script src="https://d3js.org/d3-scale-chromatic.v0.3.min.js"></script> -->
   <script src="lib/modernizr.js"></script>
   <script src="lib/underscore.js"></script>
+  <script src="./scripts/mapWithTimeline.js"></script>
   <script src="./script.js"></script>
-  <script src="./navigationBar.js"></script> <!-- Resource jQuery -->
+  <script src="./navigationBar/navigationBar.js"></script> <!-- Resource jQuery -->
 </body>
 </html>
