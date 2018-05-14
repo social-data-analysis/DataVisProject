@@ -70,6 +70,7 @@ svgLegend.append('text')
    .attr("y", 35)
    .text("1")
    .style("font-family", "Nunito")
+   .style("font-weight", "bold")
    .style("font-size", 14)
 
 svgLegend.append('text')
@@ -77,6 +78,7 @@ svgLegend.append('text')
   .attr("y", 35)
   .text("122")
   .style("font-family", "Nunito")
+  .style("font-weight", "bold")
   .style("font-size", 14)
 
 function displayDots(year){
@@ -180,16 +182,20 @@ function displayDots(year){
           .style("fill", function (d) { return fill(d.Director); })
 
         var force = d3v3.layout.force();
-
-        draw('Director');
-
         var buttons = ['Distributor', 'Production_Company', 'Director']
 
-        $( ".btn" ).click(function() {
+        function makeActiveButton(which) {
           buttons.forEach((btn) => {
             $("#" + btn).removeClass("mybtnActive")
           })
-          $("#" + this.id).addClass("mybtnActive")
+          $("#" + which).addClass("mybtnActive")
+        }
+
+        draw('Director');
+        makeActiveButton('Director')
+
+        $( ".btn" ).click(function() {
+          makeActiveButton(this.id);
           draw(this.id);
         });
 
