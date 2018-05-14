@@ -109,8 +109,6 @@ function displayDots(year) {
                 .domain([d3v3.min(arrayOfLocationCounts), d3v3.max(arrayOfLocationCounts)])
                 .range([4, 13]);
 
-            console.log(d3v3.min(arrayOfLocationCounts), d3v3.max(arrayOfLocationCounts))
-
             //Process the data
             for (var j = 0; j < data.length; j++) {
                 locations.forEach((info, index) => {

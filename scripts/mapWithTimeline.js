@@ -200,11 +200,6 @@ var g = map.append("g");
 var projection = d3v3.geo.mercator().scale(1).translate([0, 0]).precision(0);
 var path = d3v3.geo.path().projection(projection);
 
-// Define the div for the tooltip
-var div = d3v3.select("body").append("div")
-    .attr("class", "filmingLocationTooltip")
-    .style("opacity", 0);
-
 d3v3.json("districtsOfSF.json", function(json) {
     var bounds = path.bounds(json);
 
@@ -251,10 +246,6 @@ d3v3.json("districtsOfSF.json", function(json) {
                     .attr('style', 'left:' + (mouse[0] + 800) + 'px; top:' + (mouse[1] + 150) + 'px')
                     .html("<p class=\"centerTip\">" + d.properties.name + "</p>");
             };
-        })
-        .on("click", function(d) {
-            clicked(d);
-            filterFilmingLocations(d.properties.name);
         });
 
     d3v3.csv("./filmLocationsInSF.csv", function(data) {
@@ -278,20 +269,30 @@ d3v3.json("districtsOfSF.json", function(json) {
             })
             .style("z-index", 3)
             .style("position", "absolute")
-            .on("mouseover", function(d) {
-                div.transition()
-                    .duration(1200)
-                    .style("opacity", .9);
-                div.html("Hello")
-                    .style("opacity", .9)
-                    .style("left", (d3v3.event.pageX) + "px")
-                    .style("top", (d3v3.event.pageY - 28) + "px");
-            })
             .on("mouseout", function(d) {
-                div.transition()
-                    .duration(50)
-                    .style("opacity", 0);
-            });
+              tooltip.classed('hidden', true);
+              d3v3.select(this)
+                  .transition()
+                  .duration(50)
+                  .style("fill", "#f4fc83")
+          })
+          .on("mousemove", function(d) {
+              d3v3.select(this)
+                  .transition()
+                  .duration(50)
+                  .style("fill", "#ADD8E6")
+              var mouse = d3v3.mouse(map.node()).map(function(d) {
+                  return parseInt(d);
+              });
+              if (d.Title && d.Release_Year && d.Locations) {
+                  tooltip.classed('hidden', false)
+                      .attr('style', 'left:' + (mouse[0] + 610) + 'px; top:' + (mouse[1] + 210) + 'px')
+                      .html("<p class=\"centerTip\"> <span class=\"bold\">Title:</span> " + d.Title + "</p>" +
+                          "<p class=\"centerTip\"><span class=\"bold\">Release Year:</span> " + d.Release_Year + "</p>" +
+                          "<p class=\"centerTip\"><span class=\"bold\">Locations:</span> " + d.Locations + "</p>"
+                      );
+              };
+          })
     });
 
     // Default filming locations are spanned all across the interval 1924-2018
@@ -327,6 +328,30 @@ function drawFilmingLocations(data) {
         .attr("class", "brushed")
         .style("z-index", 3)
         .style("position", "absolute")
+        .on("mouseout", function(d) {
+          tooltip.classed('hidden', true);
+          d3v3.select(this)
+              .transition()
+              .duration(50)
+              .style("fill", "#f4fc83")
+      })
+      .on("mousemove", function(d) {
+          d3v3.select(this)
+              .transition()
+              .duration(50)
+              .style("fill", "#ADD8E6")
+          var mouse = d3v3.mouse(map.node()).map(function(d) {
+              return parseInt(d);
+          });
+          if (d.Title && d['Release Year'] && d.Locations) {
+              tooltip.classed('hidden', false)
+                  .attr('style', 'left:' + (mouse[0] + 610) + 'px; top:' + (mouse[1] + 210) + 'px')
+                  .html("<p class=\"centerTip\"> <span class=\"bold\">Title:</span> " + d.Title + "</p>" +
+                      "<p class=\"centerTip\"><span class=\"bold\">Release Year:</span> " + d['Release Year'] + "</p>" +
+                      "<p class=\"centerTip\"><span class=\"bold\">Locations:</span> " + d.Locations + "</p>"
+                  );
+          };
+      })
 }
 
 
@@ -338,11 +363,6 @@ function brushed() {
     if (d3v4.event.sourceEvent.type === "brush") return;
 
     if (d3v4.event.selection) {
-        // if (centered) {
-        //   console.log(centered);
-        //   filterFilmingLocations(centered.properties.name);
-        // }
-        // else {
         var d0 = d3v4.event.selection.map(xScale.invert),
             d1 = d0.map(Math.round);
 
@@ -355,7 +375,6 @@ function brushed() {
         d3v4.select(this).call(d3v4.event.target.move, d1.map(xScale));
 
         updateFilmingLocations(d0[0], d0[1]);
-        // }
     }
 }
 
@@ -366,43 +385,4 @@ function updateFilmingLocations(startDate, endDate) {
         .remove();
 
     drawFilmingLocations(filteredData);
-}
-
-
-function clicked(d) {
-    var x, y, k;
-
-    if (d && centered !== d) {
-        var centroid = path.centroid(d);
-        x = centroid[0];
-        y = centroid[1];
-        k = 4;
-        centered = d;
-    } else {
-        x = width / 2;
-        y = height / 2;
-        k = 1;
-        centered = null;
-    }
-
-    g.selectAll("path")
-        .classed("active", centered && function(d) {
-            return d === centered;
-        });
-
-    g.transition()
-        .duration(750)
-        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
-        .style("stroke-width", 1.5 / k + "px");
-
-    d3v3.select('body').append('div')
-        .attr('class', 'hidden tooltip');
-}
-
-function filterFilmingLocations(name) {
-    console.log(name);
-    // map.selectAll("circle")
-    // .remove();
-
-    console.log(nestedData);
 }
