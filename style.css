@@ -25,7 +25,13 @@ html, body {
 }
 
 .icons {
-  margin-right: 60px;
+  margin-right: 40px;
+  /* display: inline-block; */
+}
+
+.icon {
+  display: inline;
+  margin: 0px 3px 0px 3px;
 }
 
 @media screen and (min-width: 1100px) {
@@ -184,7 +190,7 @@ body {
 
 .tooltip::first-letter {
   text-transform: uppercase;
-} 
+}
 
 .selection {
   fill: #ADD8E6;

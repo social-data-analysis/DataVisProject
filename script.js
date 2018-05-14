@@ -70,6 +70,7 @@ svgLegend.append('text')
    .attr("y", 35)
    .text("1")
    .style("font-family", "Nunito")
+   .style("font-weight", "bold")
    .style("font-size", 14)
 
 svgLegend.append('text')
@@ -77,6 +78,7 @@ svgLegend.append('text')
   .attr("y", 35)
   .text("122")
   .style("font-family", "Nunito")
+  .style("font-weight", "bold")
   .style("font-size", 14)
 
 function displayDots(year){
@@ -162,12 +164,12 @@ function displayDots(year){
               .transition()
               .duration(50)
               .style("fill", "#54daf2")
-            var mouse = d3.mouse(map.node()).map(function(d) {
+            var mouse = d3v3.mouse(map.node()).map(function(d) {
                 return parseInt(d);
             });
             if (d.Title) {
               tooltip.classed('hidden', false)
-                .attr('style', 'left:' + (mouse[0] + 380) + 'px; top:' + (mouse[1] + 250) + 'px')
+                .attr('style', 'left:' + (mouse[0] + 610) + 'px; top:' + (mouse[1] + 210) + 'px')
                 .html("<p class=\"centerTip\"> <span class=\"bold\">Title:</span> "+ d.Title + "</p>" +
                 "<p class=\"centerTip\"><span class=\"bold\">Director:</span> " + d.Director + "</p>" +
                 "<p class=\"centerTip\"><span class=\"bold\">Production Company:</span> " + d.Production_Company + "</p>" +
@@ -180,16 +182,20 @@ function displayDots(year){
           .style("fill", function (d) { return fill(d.Director); })
 
         var force = d3v3.layout.force();
-
-        draw('Director');
-
         var buttons = ['Distributor', 'Production_Company', 'Director']
 
-        $( ".btn" ).click(function() {
+        function makeActiveButton(which) {
           buttons.forEach((btn) => {
             $("#" + btn).removeClass("mybtnActive")
           })
-          $("#" + this.id).addClass("mybtnActive")
+          $("#" + which).addClass("mybtnActive")
+        }
+
+        draw('Director');
+        makeActiveButton('Director')
+
+        $( ".btn" ).click(function() {
+          makeActiveButton(this.id);
           draw(this.id);
         });
 
