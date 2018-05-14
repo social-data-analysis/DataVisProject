@@ -89,8 +89,136 @@
 
     <section id="section4" class="cd-section">
       <div class="content-wrapper">
-        <h2>Help</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto numquam, totam iusto officia earum perferendis, culpa ad atque eveniet praesentium nobis expedita similique beatae tenetur. Distinctio vel tenetur, id cum.</p>
+        <h1 class="subtitle">Explainer notebook</h1>
+        <br/><br/><br/><br/>
+        <div class="notebook-content">
+          <div class="text-container">
+            <div class="section">
+              <h2>Motivation</h2>
+              <p>Our dataset contains the filming locations of movies shot in San Francisco, starting from 1924.
+                We chose this dataset because San Francisco is one of the most popular locations for filmmakers,
+                offering a lot of iconic landmarks and beautiful landscapes. 
+                The Bay Area has a unique charm impossible to find elsewhere in the West Coast,
+                making it the perfect place to shoot Oscar-worthy films.</p>
+                <p>One of the main goals regarding this project was to find out where exactly certain scenes from famous
+                  were shot. We achieved this by visualizing the filming locations on the map and filtering them by their
+                  release year. We also wanted to find meaningful connections between production companies, distributors and directors
+                  and analyze the recurring patterns, so we created a sunburst diagram and bubble charts which will be detailed below.
+                </p>
+            </div>
+            <div class="section">
+                <h2>Basic stats</h2>
+                <p>
+                    The dataset was downloaded from  
+                    <a href=https://data.sfgov.org/Culture-and-Recreation/Film-Locations-in-San-Francisco/yitu-d5am>DataSF website.</a>
+                    The table contains information about movies that were shot in San Francisco.                    
+                </p>
+                <p>Note: all the following preprocessing steps were executed in Python.</p>
+                <p>First, it was decided to discard the "Fun Facts" column as only some observations had a
+                    corresponding value, and it was irrelevant for the project analysis. The next issue was regarding missing values. It was decided to throw all rows containing missing values. The reason for that is this way still almost a thousand rows were available, and rows with missing values would have messed up the analysis.
+                </p>
+                <p>Then, it was discovered that the dataset does not contain any coordinates. Hence, a script was developed to obtain coordinates for each locations via Google Maps API. This way, the locations could be plotted over the map of San Francisco.
+                  </p>
+                  <p>Finally, to make the visualizations possible, the required data had to be extracted from the dataset. For example, for the sunburst chart, movies were grouped under their corresponding Production Company, which were grouped in addition under their corresponding Distributor. The result was exported to a JSON file, which was consumed later by the JavaScript code. Some other extractions were made, for example filtering the data by years, counting unique values in each columns, and so on.
+                    </p>
+                    <p>The above mentioned steps were much easier to implement in Python, which is designed for tasks like these. Hence, while developing the D3 JavaScript code, the focus could be put on the visualizations, as the clean data was already available.        </p>
+              <p>
+                Dataset stats:
+                <ul>
+                  <li>1622 rows before cleaning</li>
+                  <li>969 rows after cleaning</li>
+                  <li>Original size: 321KB</li>
+                  <li>Final size: 204KB</li>
+                  <li>11 features:
+                    <ul>
+                      <li>Title</li>
+                      <li>Release Year</li>
+                      <li>Locations</li>
+                      <li>Fun Facts</li>
+                      <li>Production Company</li>
+                      <li>Distributor</li>
+                      <li>Director</li>
+                      <li>Writer</li>
+                      <li>Actor 1</li>
+                      <li>Actor 2</li>
+                      <li>Actor 3</li>
+                      <li>1 added feature: coordinates</li>
+                    </ul>
+                  </li>
+                </ul>
+              </p>
+            </div>
+            <div class="section">
+                <h2>Genre</h2>
+                <p>
+                    In general, a website’s main visual characteristics are categorized into different genres. In case of the website created by the group, the following genres of data story were used.
+                </p>
+                <p>
+                    The first main category is the Visual Narrative, which refers to the organization of the visual media content. It was decided to exploit Visual Structuring by the group, with a main focus on creating a Consistent Visual Platform. This way the user can experience a smooth journey through the website, being able to easily understand each part. The color theme is consistent on the whole webpage, and the presented information is strongly related in all the visualizations.
+                </p>
+                <p>
+                    The second main category is Narrative Structure, which tells how the story is presented to the reader. The website introduces Interactivity in its visualizations, including mostly Filtering/Selection/Search features. This way readers can explore the visualizations themselves, instead of just passively observing the presented data. It expectedly results in a more enjoyable experience. Then, by leaving some of the exploration to the readers, it is provided that they can proceed in their own tempo, discovering connections between different parts of the data.
+                </p>
+            </div>
+            <div class="section">
+                <h2>Visualizations</h2>
+                <br/>
+                <h4>Map with brushable timeline</h4>
+                <p>
+                  The map is showing the districts of San Francisco along with all filming locations from 1924 to present day.
+                  First thing that can be noticed from the map is that a considerable amount of movies were shot in the  
+                  North-Eastern part, in close proximity to Golden Gate Bridge and all the other top-rated tourist attractions.
+                  Secondly, we also added a timeline containing all the years between 1924-2018, and as we move the brush over
+                  the timeline, it can be clearly seen how powerful the movie industry became in the past few decades: from only a handful
+                  of movies last century to hundreds nowadays.
+                  It goes without saying that Hollywood loves San Francisco.
+                </p>
+                <br/>
+                <h4>Sunburst</h4>
+                <p>
+                    Sunburst chart is a great way to hierarchically visualize a dataset. In this project, Distributors,
+                    Production Companies and Movies were organized in this order. It can be easily seen that which
+                    Distributor is accountable for the most Production Companies as partners and how many movies were produced by them. The sunburst chart is interactive, meaning that the elements are clickable. When clicking one of the sub-items, the chart will zoom in to that section. If the middle element is clicked, the chart will zoom back out. Some of the code was reused from https://bl.ocks.org/mbostock/4348373. It needed some modifications to work with our data, then it could be integrated. Of course, the project's dataset was transformed so that it can be processed by the code. This means that a JSON file was created with the necessary structure. These efforts resulted in the given sunburst chart, which is not a widely used, but very spectacular hierarchy representation, hence it was decided to be included in the project.                    
+                </p>
+                <br/>
+                <h4>Arc diagram</h4>
+                <p>
+                    The intention was to create an arc diagram as well. That is a great way to present networks visually. The idea was to connect actors and actresses who played in the same movie.
+                    After doing the necessary preprocessing in Python, unfortunately, it turned out that in case of this dataset, this representation would not make sense. That is because in most of the cases, actors and actresses were playing a role together in just one movie. This means that three actors would be connected in case for each movie, and no actors would be connected from several different movies. Hence, it was decided not to include the arc diagram, which is a shame, because they are not a well-known form of visualization.                    
+                </p>
+                <br/>
+                <h4>Bubble charts</h4>
+                <p>
+                    Bubble charts visualization was created to present the data and give the users an option to filter the data according to their preferences. It is possible to group movies by director, production company or distributor. The visualization gives a possibility to choose timeframes (by choosing one of the timeframes from select list). To create this visualization some of the code from this tutorial was used: http://www.delimited.io/blog/2013/12/19/force-bubble-charts-in-d3 as well as from this one: https://bl.ocks.org/danielatkin/57ea2f55b79ae686dfc7 
+                    Some changes that were made included: creation of select list instead of buttons, filtering the data instead of having multiple files for each time period and preprocessing the data in python to get number of locations in each movie. Minimum and maximum numbers were used to create a scale of numbers corresponsing to the size of the bubbles. Additionally, the legend showing bubble sizes was implemented. 
+                    This visualization fits well with the dataset used by the group. It allows to look closely at different data categories and also to see how the amount of the data changed over the years.                     
+                </p>
+
+            </div>
+            <div class="section">
+                <h2>Discussion</h2>
+                <p>The project developed by the group consists of two major points that need to be mentioned. 
+                  </p>
+                  <p>First one was data processing implemented in Python. A major thing that influenced the dataset used by the team was the fact that the dataset did not have location coordinates (latitude and longitude). Therefore, additional processing had to be done. The group used Google Maps API to obtain coordinates, however for many addresses from the dataset it was impossible to get the right latitude and longitude. It influenced the dataset and made it much smaller. Besides that, each of the visualizations needed different data structure. Due to this fact, for some parts of visualization additional processing was implemented in javascript. If the group had more time it would be clearer to keep the processing part only using Python - than the code would be more consistent. </p>
+                  <p>Second important step was choosing the types of visualizations. As the dataset is about the city, choosing a map with circles indicating locations was an obvious step. After implementing this part, a histogram with brush has been added. Before having a brush, the team has also implemented an option to zoom in each neighbourhood. However, the brush made it too complicated to keep this feature without having an influence on the circles. Therefore, the group has decided to delete the zooming part in the final version of the project. Sunburst diagram turned out to be working quite well for the dataset used by the group. It allows to see clearly which distributors or productions companies had the most movies. Bubbles visualization was chosen to explore the dataset in detail. It can be seen that the biggest distributors or production companies usually turned out to appear like this because they produced series. In the dataset each episode of the series is saved as a separate movie. As it was mentioned above, arc diagram that the group has planned did not work for this dataset. However, to realize it, the group needed to made data preprocessing. 
+                  </p>
+                  <p>Second important step was choosing the types of visualizations. As the dataset is about the city, choosing a map with circles indicating locations was an obvious step. After implementing this part, a histogram with brush has been added. Before having a brush, the team has also implemented an option to zoom in each neighbourhood. However, the brush made it too complicated to keep this feature without having an influence on the circles. Therefore, the group has decided to delete the zooming part in the final version of the project. Sunburst diagram turned out to be working quite well for the dataset used by the group. It allows to see clearly which distributors or productions companies had the most movies. Bubbles visualization was chosen to explore the dataset in detail. It can be seen that the biggest distributors or production companies usually turned out to appear like this because they produced series. In the dataset each episode of the series is saved as a separate movie. As it was mentioned above, arc diagram that the group has planned did not work for this dataset. However, to realize it, the group needed to made data preprocessing.                     </p>
+                <p>Last but not least, if the group had more time, additional part showing conclusions about each visualizations could have been implemented. It would allow to see the story of San Francisco movies more clearly, and could summarize the dataset well.  
+                  </p>
+                </div>
+            <div class="section">
+                <h2>Contributions</h2>
+                <p>Diana Tofan - Locations (Map Visualization + Brushable Timeline), Website Development, Explainer Notebook (Motivation, Visualizations)</p>
+                <p>Gergely Bindics - Studios (Sunburst Diagram), Data Preprocessing, Explainer Notebook (Basic Stats, Genre, Visualizations)</p>
+                <p>Kasia Zukowska - Distributors (Bubble Visualization), Website Design, Explainer Notebook (Discussion, Visualizations)</p>
+            </div>
+            <div class="section">
+                <h2>Github repo</h2>
+                <br/>
+               <a href=https://github.com/social-data-analysis/DataVisProject>Link</a>
+            </div>
+        </div>
+        </div>
       </div>
     </section><!-- cd-section -->
 

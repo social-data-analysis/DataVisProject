@@ -75,7 +75,7 @@ html, body {
 }
 
 a {
-  coursor: pointer;
+  cursor: pointer;
 }
 
 .icon {
@@ -242,7 +242,7 @@ li p {
 }
 
 a, a:visited, a:active, a:hover {
-  color: #a983ca;
+  color: #23527c;
   font-weight: 700;
   text-decoration: none;
 }
@@ -395,4 +395,29 @@ ul > li > ul > li {
 
 path {
   stroke: #313a47;
+}
+
+.notebook-content {
+  background: white;
+  color: black;
+  margin: 0 100px 50px 100px;
+  /* text-align: left; */
+}
+
+.text-container {
+  margin: 0px 40px 30px 40px;
+}
+
+.section {
+  text-align: left;
+}
+.section h2 {
+  text-align: left;
+  font-weight: 700;
+  font-size: 20px;
+  margin: 30px 0 0 0 !important;
+}
+
+.section p {
+  font-weight: 500;
 }

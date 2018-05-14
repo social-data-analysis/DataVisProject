@@ -248,8 +248,7 @@ d3v3.json("districtsOfSF.json", function(json) {
        })
        .on("click", function(d) {
          clicked(d);
-         console.log(d);
-         showDistrictDetails(d.properties.name);
+         filterFilmingLocations(d.properties.name);
        });
 
     d3v3.csv("./filmLocationsInSF.csv", function(data) {
@@ -324,25 +323,33 @@ function drawFilmingLocations(data) {
     .style("position", "absolute")
 }
 
+
 //----------------------------------------------------------------------------------------------------------------------
 // BRUSHING
 //----------------------------------------------------------------------------------------------------------------------
 
 function brushed() {
   if (d3v4.event.sourceEvent.type === "brush") return;
+  
   if (d3v4.event.selection) {
-    var d0 = d3v4.event.selection.map(xScale.invert),
-    d1 = d0.map(Math.round);
-    
-    // If empty when rounded, use floor instead.
-    if (d1[0] >= d1[1]) {
-      d1[0] = Math.floor(d0[0]);
-      d1[1] = d1[0] + 1;
-    }
-    
-    d3v4.select(this).call(d3v4.event.target.move, d1.map(xScale));
+    // if (centered) {
+    //   console.log(centered);
+    //   filterFilmingLocations(centered.properties.name);
+    // }
+    // else {
+      var d0 = d3v4.event.selection.map(xScale.invert),
+      d1 = d0.map(Math.round);
+      
+      // If empty when rounded, use floor instead.
+      if (d1[0] >= d1[1]) {
+        d1[0] = Math.floor(d0[0]);
+        d1[1] = d1[0] + 1;
+      }
+      
+      d3v4.select(this).call(d3v4.event.target.move, d1.map(xScale));
 
-    updateFilmingLocations(d0[0], d0[1]);
+      updateFilmingLocations(d0[0], d0[1]);
+      // }
   }
 }
 
@@ -380,14 +387,14 @@ function clicked(d) {
       .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
       .style("stroke-width", 1.5 / k + "px");
 
-      d3v3.select('body').append('div')
-      .attr('class', 'hidden tooltip');
+  d3v3.select('body').append('div')
+  .attr('class', 'hidden tooltip');
   }
 
-  function showDistrictDetails(name) {
-
-  map.selectAll("circle")
-  .remove();
-  
+  function filterFilmingLocations(name) {
+    console.log(name);
+    // map.selectAll("circle")
+    // .remove();
+    
     console.log(nestedData);
   }
