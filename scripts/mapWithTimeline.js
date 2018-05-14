@@ -194,6 +194,11 @@ var g = map.append("g");
 var projection = d3v3.geo.mercator().scale(1).translate([0, 0]).precision(0);
 var path = d3v3.geo.path().projection(projection);
 
+// Define the div for the tooltip
+var div = d3v3.select("body").append("div")	
+    .attr("class", "filmingLocationTooltip")				
+    .style("opacity", 0);
+
 d3v3.json("districtsOfSF.json", function(json) {
   var bounds = path.bounds(json);
 
@@ -268,6 +273,20 @@ d3v3.json("districtsOfSF.json", function(json) {
         })
         .style("z-index", 3)
         .style("position", "absolute")
+        .on("mouseover", function(d) {		
+          div.transition()		
+              .duration(1200)		
+              .style("opacity", .9);		
+          div	.html("Hello")	
+             .style("opacity", .9)	
+              .style("left", (d3v3.event.pageX) + "px")		
+              .style("top", (d3v3.event.pageY - 28) + "px");	
+          })					
+      .on("mouseout", function(d) {		
+          div.transition()		
+              .duration(50)		
+              .style("opacity", 0);	
+      });
     });
 
  // Default filming locations are spanned all across the interval 1924-2018

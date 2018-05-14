@@ -251,7 +251,6 @@ Vertical navigation
     top: 8px;
     height: 16px;
     width: 16px;
-    background: url(cd-nav-icons.svg) no-repeat;
     -webkit-transform: translateX(-50%) scale(0);
     -moz-transform: translateX(-50%) scale(0);
     -ms-transform: translateX(-50%) scale(0);
@@ -260,6 +259,18 @@ Vertical navigation
     -webkit-transition: -webkit-transform 0.4s 0s, opacity 0.1s 0.3s;
     -moz-transition: -moz-transform 0.4s 0s, opacity 0.1s 0.3s;
     transition: transform 0.4s 0s, opacity 0.1s 0.3s;
+  }
+  .cd-vertical-nav .mapIcon::after {
+    background: url(map.svg) no-repeat !important;
+  }
+  .cd-vertical-nav .sunburstIcon::after {
+    background: url(film-roll.svg) no-repeat !important;
+  }
+  .cd-vertical-nav .bubblesIcon::after {
+    background: url(video-camera.svg) no-repeat !important;
+  }
+  .cd-vertical-nav .notebookIcon::after {
+    background: url(information.svg) no-repeat !important;
   }
   .cd-vertical-nav a.active::before, .no-touch .cd-vertical-nav a:hover::before {
     background-color: #f4fc83;
