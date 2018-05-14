@@ -197,7 +197,7 @@ function displayDots(year){
             d3.select(this)
               .transition()
               .duration(50)
-              .style("fill", "black")
+              .style("fill", "#54daf2")
             var mouse = d3.mouse(map.node()).map(function(d) {
                 return parseInt(d);
             });
@@ -256,13 +256,14 @@ function displayDots(year){
 
 
         function labels (centers) {
-          svgBubbles.selectAll(".label").remove();
-          svgBubbles.selectAll(".label")
+          svgBubbles.selectAll(".myLabel").remove();
+          svgBubbles.selectAll(".myLabel")
           .data(centers).enter().append("text")
-          .attr("class", "label")
+          .attr("class", "myLabel")
+          .style("width", "60px")
           .text(function (d) { return d.name })
           .attr("transform", function (d) {
-            return "translate(" + (d.x + (d.dx / 3)) + ", " + (d.y + 20) + ")";
+            return "translate(" + (d.x + (d.dx / 5)) + ", " + (d.y + 20) + ")";
           });
         }
 
@@ -329,8 +330,8 @@ function clicked(d) {
 //----------------------------------------------------------------------------------------------------------------------
 
 // Define parameters.
-var sunburstWidth = 960,
-    sunburstHeight = 700,
+var sunburstWidth = 760,
+    sunburstHeight = 500,
     sunburstRadius = (Math.min(sunburstWidth, sunburstHeight) / 2) - 10;
 
 // Add tooltip.
